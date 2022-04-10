@@ -1,0 +1,3 @@
+[submodule "ext/gdeltPyR"]
+	path = ext/gdeltPyR
+	url = https://github.com/allisterb/gdeltPyR.git
