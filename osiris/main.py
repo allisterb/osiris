@@ -27,7 +27,7 @@ if __name__ == '__main__':
     from pyfiglet import Figlet
     from colorama import Fore,Style
     fig = Figlet(font='chunky')
-    print(Fore.CYAN, fig.renderText('osiris')) 
+    print(Fore.RED, fig.renderText('osiris')) 
     print('0.1.0' + os.linesep)
     print(Style.RESET_ALL)
 

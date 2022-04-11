@@ -1,7 +1,7 @@
 import abc
 
 class DataImporter(abc.ABC):
-    """Import data."""
+    """Import data into graph database."""
 
     def __init__(self, args=[]):
         self.args = args
