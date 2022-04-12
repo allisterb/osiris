@@ -6,16 +6,16 @@ import gdelt
 import pandas as pd           
 
 from base.timer import begin
-from core.importer import DataImporter
+from core.datasource import DataSource
 
-class DataImporter(DataImporter):
-    """Import data from GDELT"""
+class DataSource(DataSource):
+    """Import and monitor data from GDELT"""
 
     def __init__(self):
         super().__init__("GDELT")
         self.gd2 = gdelt.gdelt(version=2)
 
-    def get_importer_info(self):
+    def get_info(self):
         pass
     
     def import_data(self, table, start_date, end_date):
@@ -29,13 +29,15 @@ class DataImporter(DataImporter):
             return None
         d = end_date - start_date
         days = [start_date + timedelta(days=x) for x in range((d).days + 1)]
-        results:pd.DataFrame = pd.DataFrame()
-        for day in days:
-            with begin(f'Import GDELT {table} for {day}') as op:
-                r = (self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table))
-                results.append(r)
-                op.complete()
-                return results
+        results:list[pd.DataFrame] = list()
+        with begin(f"Import GDELT {table} for {len(days)} days from {start_date} to {end_date}") as op:
+            for day in days:
+                with begin(f"Import GDELT {table} for {day.strftime('%m-%d-%Y')}") as op2:
+                    r = (self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table))
+                    results.append(r)
+                    op2.complete()
+            op.complete()
+        return pd.concat(results)
         
     def monitor(message_queue:queue.Queue):
         return ''
