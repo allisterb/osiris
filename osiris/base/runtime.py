@@ -4,8 +4,6 @@ import string
 from numpy import float32
 from osiris_global import DEBUG
 
-interactive_console = False
-         
 def _json_default(o):
     if isinstance(o, float32): 
         return str(o)
