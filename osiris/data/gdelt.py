@@ -18,7 +18,7 @@ class DataSource(DataSource):
     def get_info(self):
         pass
     
-    def import_data(self, table, start_date, end_date):
+    def import_data(self, table, start_date, end_date, output='pd'):
         """Import GDELT data for a date range"""
 
         try:
@@ -30,10 +30,10 @@ class DataSource(DataSource):
         d = end_date - start_date
         days = [start_date + timedelta(days=x) for x in range((d).days + 1)]
         results:list[pd.DataFrame] = list()
-        with begin(f"Import GDELT {table} for {len(days)} days from {start_date} to {end_date}") as op:
+        with begin(f"Importing GDELT {table} for {len(days)} days from {start_date.strftime('%m-%d-%Y')} to {end_date.strftime('%m-%d-%Y')}") as op:
             for day in days:
-                with begin(f"Import GDELT {table} for {day.strftime('%m-%d-%Y')}") as op2:
-                    r = (self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table))
+                with begin(f"Importing GDELT {table} for {day.strftime('%m-%d-%Y')}") as op2:
+                    r = (self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table, output=output))
                     results.append(r)
                     op2.complete()
             op.complete()

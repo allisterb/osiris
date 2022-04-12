@@ -2,6 +2,7 @@ from logging import info, error
 
 import pandas as pd
 import click
+from rich import print
 
 from cli.commands import data_import
 from cli.util import *
@@ -19,6 +20,7 @@ def import_gdelt(table, start_date, end_date, target, user, passwd, token):
    gdelt = DataSource()
    data:pd.DataFrame = gdelt.import_data(table, start_date, end_date)
    data.info()
+   print(data.head())
 
 
    
