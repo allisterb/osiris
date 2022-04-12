@@ -9,9 +9,9 @@
             "type": "python",
             "request": "launch",
             "program": "osiris/main.py",
-            "args": [],
+            "args": ["--debug", "import", "gdelt", "gkg"],
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }

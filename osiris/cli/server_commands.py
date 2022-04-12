@@ -9,7 +9,7 @@ import click
 from rich import print
 
 import osiris_global
-import data.gdelt_monitor
+import data.gdelt_importer
 from base.timer import begin
 from cli.commands import server as servercmd
 from cli.util import exit_with_error
