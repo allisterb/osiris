@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "osiris/main.py",
-            "args": ["--debug", "import", "gdelt", "events", "Jun-30-2021", "Jul-01-2021"],
+            "args": ["--debug", "import", "gdelt", "events", "Jun-30-2021 04:00:00", "Jul-01-2021 06:00:30"],
             "console": "integratedTerminal",
             "justMyCode": false
         }
