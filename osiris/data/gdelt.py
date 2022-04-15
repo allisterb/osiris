@@ -7,8 +7,6 @@ import pandas as pd
 
 from base.timer import begin
 from core.datasource import DataSource
-from models.actor import Actor
-from models.event import Event
 
 class DataSource(DataSource):
     """Import and monitor data from GDELT"""
@@ -61,7 +59,3 @@ class DataSource(DataSource):
     def monitor(message_queue:queue.Queue):
         return ''
 
-    def create_events_from_df(df:pd.DataFrame)-> "list[Event]":
-        result = list()
-        for row in df:
-            

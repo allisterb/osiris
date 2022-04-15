@@ -1,5 +1,7 @@
+import logging
 import os, sys
 import warnings
+import logging
 from logging import info,error
 
 import osiris_global
@@ -27,7 +29,7 @@ if __name__ == '__main__':
     from pyfiglet import Figlet
     from colorama import Fore,Style
     fig = Figlet(font='chunky')
-    print(Fore.RED, fig.renderText('osiris')) 
+    print(Fore.LIGHTMAGENTA_EX, fig.renderText('osiris')) 
     print('0.1.0' + os.linesep)
     print(Style.RESET_ALL)
 
