@@ -7,6 +7,8 @@ import pandas as pd
 
 from base.timer import begin
 from core.datasource import DataSource
+from models.actor import Actor
+from models.event import Event
 
 class DataSource(DataSource):
     """Import and monitor data from GDELT"""
@@ -37,7 +39,7 @@ class DataSource(DataSource):
         """Import GDELT data for a date range spanning multiple hours"""
         d = end_date - start_date
         hours = [start_date + timedelta(hours=x) for x in range(d.days * 24 + int(d.seconds / 3600))]
-        with begin(f"Importing GDELT {table} for {len(hours)} hour(s) from {start_date.strftime('%m-%d-%Y %H:%M:%S')} to {end_date.strftime('%m-%d-%Y %H:%M:%S')}") as op:
+        with begin(f"Importing GDELT {table} data for {len(hours)} hour(s) from {start_date.strftime('%m-%d-%Y %H:%M:%S')} to {end_date.strftime('%m-%d-%Y %H:%M:%S')}") as op:
             r = self.gd2.Search(list(map(lambda x: x.strftime('%m-%d-%Y %H:%M:%S'), hours)), coverage = False, table=table, output=output)
             op.complete()
             return r
@@ -47,9 +49,9 @@ class DataSource(DataSource):
         d = end_date - start_date
         days = [start_date + timedelta(days=x) for x in range(d.days + 1)]
         results:list[pd.DataFrame] = list()
-        with begin(f"Importing GDELT {table} for {len(days)} day(s) from {start_date.strftime('%m-%d-%Y')} to {end_date.strftime('%m-%d-%Y')}") as op:
+        with begin(f"Importing GDELT {table} data for {len(days)} day(s) from {start_date.strftime('%m-%d-%Y')} to {end_date.strftime('%m-%d-%Y')}") as op:
             for day in days:
-                with begin(f"Importing GDELT {table} for {day.strftime('%m-%d-%Y')}") as op2:
+                with begin(f"Importing GDELT {table} data for {day.strftime('%m-%d-%Y')}") as op2:
                     r = self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table, output=output)
                     results.append(r)
                     op2.complete()
@@ -58,3 +60,8 @@ class DataSource(DataSource):
         
     def monitor(message_queue:queue.Queue):
         return ''
+
+    def create_events_from_df(df:pd.DataFrame)-> "list[Event]":
+        result = list()
+        for row in df:
+            
