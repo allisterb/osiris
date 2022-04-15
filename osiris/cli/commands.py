@@ -20,20 +20,24 @@ def monitor(): pass
 @click.argument('url')
 @click.argument('graph_name')
 @click.option('--target', default='tg')
-@click.option('--user', envvar='OSIRIS_GRAPH_SERVER_USER', default = None)
-@click.option('--passwd', envvar='OSIRIS_GRAPH_SERVER_PASS', default = None)
-@click.option('--token', envvar='OSIRIS_GRAPH_SERVER_TOKEN', default = None)
+@click.option('--user', envvar='OSIRIS_GRAPH_SERVER_USER', default='tigergraph')
+@click.option('--passwd', envvar='OSIRIS_GRAPH_SERVER_PASS')
+@click.option('--token', envvar='OSIRIS_GRAPH_SERVER_TOKEN')
 @click.pass_context
 def graph_server(ctx, url, graph_name, target, user, passwd, token):
     if target != 'tg':
-        exit_with_error('Only the TigerGraph graph server is currently supported.')
+        exit_with_error('Only the TigerGraph graph database server is currently supported.')
+    if url is None:
+        exit_with_error('You must specify the URL or connection string for the graph server to connect to.')
     import core.graph_server
-    ctx.obj['GRAPH_API_URL'] = core.graph_server.api_url = url
-    ctx.obj['GRAPH_NAME'] = core.graph_server.graph_name = graph_name
     ctx.obj['GRAPH_TARGET'] = core.graph_server.target = target
+    ctx.obj['GRAPH_SERVER_URL'] = core.graph_server.url = url
+    ctx.obj['GRAPH_NAME'] = core.graph_server.graph_name = graph_name
     ctx.obj['GRAPH_USER'] = core.graph_server.user = user
     ctx.obj['GRAPH_PASSWD'] = core.graph_server.passwd = passwd
     ctx.obj['GRAPH_TOKEN'] = core.graph_server.token = token
+    from graph_server.tigergraph import GraphServer
+    core.graph_server.server = GraphServer(url, graph_name, user, passwd, token)
 
 import cli.import_commands
 import cli.monitor_commands

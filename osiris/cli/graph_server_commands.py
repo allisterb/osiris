@@ -13,3 +13,4 @@ from cli.util import *
 def info_cmd(ctx:Context):
     if core.graph_server.token is not None:
         info(f'Graph server token is {core.graph_server.token[:2]}...')
+    print(core.graph_server.server.get_info())

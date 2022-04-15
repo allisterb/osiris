@@ -3,3 +3,4 @@ rich
 colorama
 pyfiglet
 jupyter
+pyTigerGraph
