@@ -25,7 +25,7 @@ def exception_handler(exc_type, exc, tb):
         )
 def unhandled_exception_handler(ex_type, ex, tb):
     exception_handler(ex_type, ex, tb)
-    error("A runtime exception occurred. maude will now exit.")
+    error("A runtime exception occurred. osiris will now exit.")
 def exit_success():
     sys.exit(0)
     

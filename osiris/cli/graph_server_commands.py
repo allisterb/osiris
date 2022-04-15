@@ -10,9 +10,6 @@ from cli.util import *
 
 @graph_server_cmd.command('info', help = 'Print info on graph server')
 @click.pass_context
-def info(ctx:Context):
-    
-    print(core.graph_server.graph_api_url)
-    #print(graph_server)
-    #if token is not None:
-    #    info(f'Graph server token is {token[:2]}...')
+def info_cmd(ctx:Context):
+    if core.graph_server.token is not None:
+        info(f'Graph server token is {core.graph_server.token[:2]}...')

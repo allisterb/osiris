@@ -17,7 +17,7 @@ from cli.util import exit_with_error
 @monitor.command(help='Start a daemon process to monitor data sources and upload data to graph server.')  
 @click.option('--id', default='osiris', help='The osiris instance id.')
 @click.argument('source', default='gdelt')
-@click.argument('target', default='tigergraph')
+@click.argument('target', default='tg')
 def monitor(id, source):
     osiris_global.OSIRIS_ID = id
     info(f'osiris instance id is {id}.')
