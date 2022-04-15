@@ -11,10 +11,10 @@ from rich import print
 import osiris_global
 import data.gdelt
 from base.timer import begin
-from cli.commands import server as servercmd
+from cli.commands import monitor
 from cli.util import exit_with_error
 
-@servercmd.command(help='Monitor data sources and upload data to graph server.')  
+@monitor.command(help='Start a daemon process to monitor data sources and upload data to graph server.')  
 @click.option('--id', default='osiris', help='The osiris instance id.')
 @click.argument('source', default='gdelt')
 @click.argument('target', default='tigergraph')
@@ -47,9 +47,9 @@ def monitor(id, source):
         
         running_time = time() - start_time
         if int(running_time) % 60 == 0:
-            log_message = f'osiris server running in monitor mode for {timedelta(seconds=int(running_time))}. Processed {message_count} total log entries. Press [ENTER] to shutdown.'
+            log_message = f'osiris monitor running for {timedelta(seconds=int(running_time))}. Processed {message_count} total log entries. Press [ENTER] to shutdown.'
             if not log_message == last_log_message: 
-                info(f'osiris server running in monitor mode for {timedelta(seconds=int(running_time))}. Processed {message_count} total log entries. Press [ENTER] to shutdown.')
+                info(f'osiris monitor running for {timedelta(seconds=int(running_time))}. Processed {message_count} total log entries. Press [ENTER] to shutdown.')
                 last_log_message = log_message
     
-    info("osiris server shutdown.")
+    info("osiris monitor shutdown.")

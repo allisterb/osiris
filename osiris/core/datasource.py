@@ -1,7 +1,7 @@
 import abc
 
 class DataSource(abc.ABC):
-    """A source for importing data into graph database."""
+    """A source for importing data into a graph database."""
 
     def __init__(self, name, args=[]):
         self.name = name
@@ -9,8 +9,8 @@ class DataSource(abc.ABC):
 
     @abc.abstractmethod
     def get_info(self):
-        """Get information on data importer"""
+        """Get information on data source"""
     
     @abc.abstractmethod
     def import_data(*args):
-        """Import data using the parameters specified"""
+        """Import data from data source using the parameters specified"""
