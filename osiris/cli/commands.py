@@ -37,7 +37,7 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
     ctx.obj['GRAPH_PASSWD'] = core.graph_server.passwd = passwd
     ctx.obj['GRAPH_TOKEN'] = core.graph_server.token = token
     from graph_server.tigergraph import GraphServer
-    core.graph_server.server = GraphServer(url, graph_name, user, passwd, token)
+    core.graph_server.i = GraphServer(url, graph_name, user, passwd, token)
 
 import cli.import_commands
 import cli.monitor_commands

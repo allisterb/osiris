@@ -2,7 +2,7 @@ from core.graph_server import GraphServer
 import pyTigerGraph as tg
 
 class GraphServer(GraphServer):
-    """A TigerGraph graph server"""
+    """A TigerGraph graph database server"""
 
     def __init__(self, host, graph_name, user = None, passwd = None, token = None):
         super().__init__("GDELT", host, graph_name, user, passwd, token)
@@ -20,3 +20,6 @@ class GraphServer(GraphServer):
             
     def get_info(self):
         return self.conn.getEndpoints()
+
+    def get_token(self, api_secret=''):
+        return self.conn.getToken(api_secret)

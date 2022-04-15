@@ -19,4 +19,9 @@ class GraphServer(abc.ABC):
     def get_info(self):
         """Get information on graph database server"""
 
-server: GraphServer = None
+    @abc.abstractmethod
+    def get_token(self, api_secret=''):
+        """Get an authentication token to use with graph database server"""
+
+# Instance of a GraphServer.
+i: GraphServer = None
