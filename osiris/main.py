@@ -1,7 +1,5 @@
-import logging
 import os, sys
 import warnings
-import logging
 from logging import info,error
 
 import osiris_global

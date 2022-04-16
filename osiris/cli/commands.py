@@ -30,6 +30,8 @@ def monitor(): pass
 def graph_server(ctx, url, graph_name, target, user, passwd, token):
     if target != 'tg':
         exit_with_error('Only the TigerGraph graph database server is currently supported.')
+    if graph_name == '_':
+        graph_name = ''
     import core.graph_server
     ctx.obj['GRAPH_TARGET'] = core.graph_server.target = target
     ctx.obj['GRAPH_SERVER_URL'] = core.graph_server.url = url
@@ -40,7 +42,7 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
     from graph_server.tigergraph import GraphServer
     core.graph_server.i = GraphServer(url, graph_name, user, passwd, token)
     if core.graph_server.i.token is not None:
-        info(f'Graph server token is {core.graph_server.i.token[:2]}xxx...')
+        info(f'Using token {core.graph_server.i.token[:2]}xxx for graph server url {url}...')
 
 import cli.import_commands
 import cli.monitor_commands

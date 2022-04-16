@@ -19,14 +19,18 @@ class GraphServer(abc.ABC):
 
     @abc.abstractmethod
     def get_info(self):
-        """Get information on graph database server"""
+        """Get information on graph database server."""
 
     @abc.abstractmethod
     def get_token(self, api_secret=''):
-        """Get an authentication token to use with graph database server"""
+        """Get an authentication token to use with graph database server."""
         
     @abc.abstractmethod
     def get_statistics(self, seconds=59):
-        """Get statistics for the last n seconds"""
+        """Get statistics for the last n seconds."""
+
+    @abc.abstractmethod
+    def query(self, str):
+        """Run a query on the graph server."""
 # Instance of a GraphServer.
 i: GraphServer = None

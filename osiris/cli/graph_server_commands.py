@@ -32,27 +32,32 @@ def statistics(ctx:click.Context, seconds):
     print(graph_server.get_statistics(seconds))
 
 @graph_server_cmd.command('monitor', help = 'Start a daemon process to monitor a graph server.')
-@click.argument('ping', default=59)
-@click.argument('report', default=10)
+@click.argument('ping', default=10)
+@click.argument('report', default=59)
 @click.pass_context
 def monitor(ctx:click.Context, ping, report):
     from core.graph_server import i as graph_server
     orig_time = time.time()
-    info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {ping} seconds...')
-    print(graph_server.get_statistics())
+    info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
+    print(graph_server.get_statistics(report))
     info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
     last_ping_time = orig_time
-    last_report_time = last_ping_time
     osiris_global.DAEMON = True
     while not osiris_global.KBINPUT:
         time.sleep(3)
         current_time = time.time()
         if current_time - last_ping_time >= ping:
-            stats = graph_server.get_statistics()
-            info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {ping} seconds...')
+            stats = graph_server.get_statistics(report)
+            info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
             print(stats)
-            last_ping_time = current_time
-        elif current_time - last_report_time >= report:
             info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
-            last_report_time = current_time
+            last_ping_time = current_time
+
     info('osiris monitor daemon stopped.')
+
+@graph_server_cmd.command('query', help = 'Print graph server statistics')
+@click.argument('query_text')
+@click.pass_context
+def query_graph(ctx:click.Context, query_text):
+    from core.graph_server import i as graph_server
+    print(graph_server.query(query_text))

@@ -32,4 +32,7 @@ class GraphServer(GraphServer):
 
     def get_statistics(self, seconds=59):
         return self.conn.getStatistics(seconds)
+
+    def query(self, q):
+        return self.conn.gsql(q)
         
