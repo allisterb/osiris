@@ -26,7 +26,7 @@ class GraphServer(abc.ABC):
         """Get an authentication token to use with graph database server"""
         
     @abc.abstractmethod
-    def get_statistics(self, seconds):
+    def get_statistics(self, seconds=59):
         """Get statistics for the last n seconds"""
 # Instance of a GraphServer.
 i: GraphServer = None

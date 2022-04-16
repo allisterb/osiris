@@ -19,11 +19,17 @@ class GraphServer(GraphServer):
             self.conn = tg.TigerGraphConnection(host=self.host, graphname=self.graph_name, username=self.user, password=self.passwd)
             
     def get_info(self):
-        return self.conn.getEndpoints()
+        info = dict()
+        e = self.conn.getEndpoints()
+        p = self.conn._get(
+            self.conn.restppUrl + "/showprocesslist/" + self.graph_name, resKey=None)
+        info['endpoints'] = e
+        info['process list'] = p['results']
+        return info
 
     def get_token(self, api_secret=''):
         return self.conn.getToken(api_secret)
 
-    def get_statistics(self, seconds):
+    def get_statistics(self, seconds=59):
         return self.conn.getStatistics(seconds)
         

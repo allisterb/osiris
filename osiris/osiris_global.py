@@ -11,6 +11,8 @@ KBINPUT = False
 
 INTERACTIVE_CLI = False
 
+DAEMON = False
+
 def set_log_level(debug):
         global DEBUG
         import logging
@@ -28,7 +30,10 @@ def kb_capture_thread():
     global KBINPUT
     try:
         input()
-        info("Enter key pressed...")
+        if not DAEMON:
+            info("Enter key pressed...")
+        else:
+            info("osiris daemon stop requested...")
         #_ = getch.getch()
         KBINPUT = True
     except EOFError as _:

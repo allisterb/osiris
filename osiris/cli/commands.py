@@ -21,7 +21,7 @@ def monitor(): pass
 
 @parse.group('graph', help  = 'Run commands and queries on a graph server.')
 @click.argument('url')
-@click.argument('graph_name', default='')
+@click.argument('graph_name')
 @click.option('--target', default='tg')
 @click.option('--user', envvar='OSIRIS_GRAPH_SERVER_USER', default='tigergraph')
 @click.option('--passwd', envvar='OSIRIS_GRAPH_SERVER_PASS')
