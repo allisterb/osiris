@@ -42,7 +42,9 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
     from graph_server.tigergraph import GraphServer
     core.graph_server.i = GraphServer(url, graph_name, user, passwd, token)
     if core.graph_server.i.token is not None:
-        info(f'Using token {core.graph_server.i.token[:2]}xxx for graph server url {url}...')
+        info(f'Using token {core.graph_server.i.token[:2]}xxx for graph server {url}...')
+    if core.graph_server.user is not None and core.graph_server.passwd is not None:
+        info(f'Using user {user} and password {core.graph_server.i.passwd[:2]}xxx for graph server {url}...')
 
 import cli.import_commands
 import cli.monitor_commands
