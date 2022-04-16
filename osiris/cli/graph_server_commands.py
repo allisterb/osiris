@@ -1,3 +1,4 @@
+from email.policy import default
 from logging import info, error
 
 import click
@@ -17,7 +18,13 @@ def get_token(ctx:click.Context, secret):
 @click.pass_context
 def info_cmd(ctx:click.Context):
     from core.graph_server import i as graph_server
-    if graph_server.token is not None:
-        info(f'Graph server token is {graph_server.token[:2]}xxx...')
     info('Printing endpoints...')
     print(graph_server.get_info())
+
+@graph_server_cmd.command('stats', help = 'Print graph server statistics')
+@click.argument('seconds', default=59)
+@click.pass_context
+def statistics(ctx:click.Context, seconds):
+    from core.graph_server import i as graph_server
+    info(f'Printing statistics for graph server {graph_server.url} for the past {seconds} seconds...')
+    print(graph_server.get_statistics(seconds))

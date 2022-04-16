@@ -5,7 +5,7 @@ class GraphServer(GraphServer):
     """A TigerGraph graph database server"""
 
     def __init__(self, host, graph_name, user = None, passwd = None, token = None):
-        super().__init__("GDELT", host, graph_name, user, passwd, token)
+        super().__init__("TigerGraph", host, graph_name, user, passwd, token)
         self.host = host
         self.graph_name = graph_name
         self.user = user
@@ -23,3 +23,7 @@ class GraphServer(GraphServer):
 
     def get_token(self, api_secret=''):
         return self.conn.getToken(api_secret)
+
+    def get_statistics(self, seconds):
+        return self.conn.getStatistics(seconds)
+        

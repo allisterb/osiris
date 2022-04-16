@@ -1,3 +1,6 @@
+from email.policy import default
+from logging import info
+
 import click
 
 from cli.logging import set_log_level
@@ -18,7 +21,7 @@ def monitor(): pass
 
 @parse.group('graph', help  = 'Run commands and queries on a graph server.')
 @click.argument('url')
-@click.argument('graph_name')
+@click.argument('graph_name', default='')
 @click.option('--target', default='tg')
 @click.option('--user', envvar='OSIRIS_GRAPH_SERVER_USER', default='tigergraph')
 @click.option('--passwd', envvar='OSIRIS_GRAPH_SERVER_PASS')
@@ -27,8 +30,6 @@ def monitor(): pass
 def graph_server(ctx, url, graph_name, target, user, passwd, token):
     if target != 'tg':
         exit_with_error('Only the TigerGraph graph database server is currently supported.')
-    if url is None:
-        exit_with_error('You must specify the URL or connection string for the graph server to connect to.')
     import core.graph_server
     ctx.obj['GRAPH_TARGET'] = core.graph_server.target = target
     ctx.obj['GRAPH_SERVER_URL'] = core.graph_server.url = url
@@ -38,6 +39,8 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
     ctx.obj['GRAPH_TOKEN'] = core.graph_server.token = token
     from graph_server.tigergraph import GraphServer
     core.graph_server.i = GraphServer(url, graph_name, user, passwd, token)
+    if core.graph_server.i.token is not None:
+        info(f'Graph server token is {core.graph_server.i.token[:2]}xxx...')
 
 import cli.import_commands
 import cli.monitor_commands
