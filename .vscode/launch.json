@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: CLI",
+            "name": "osiris: CLI",
             "type": "python",
             "request": "launch",
             "program": "osiris/main.py",
             "args": ["--debug", "import", "gdelt", "events", "Jun-30-2021 04:00:00", "Jul-01-2021 06:00:30"],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "osiris: import example",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/import.py",
+            "args": [],
             "console": "integratedTerminal",
             "justMyCode": false
         }

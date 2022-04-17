@@ -6,7 +6,7 @@ CREATE VERTEX gdelt_event (
     event_date DATETIME,
     
     /* Actor 1 attributes */
-    actor1_code UINT,
+    actor1_code STRING,
     actor1_name STRING,
     actor1_country_code STRING,
     actor1_known_group_code STRING,
@@ -18,7 +18,7 @@ CREATE VERTEX gdelt_event (
     actor1_type3_code STRING,
 
     /* Actor 2 attributes */
-    actor2_code UINT,
+    actor2_code STRING,
     actor2_name STRING,
     actor2_country_code STRING,
     actor2_known_group_code STRING,

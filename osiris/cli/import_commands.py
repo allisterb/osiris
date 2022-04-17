@@ -11,11 +11,8 @@ from cli.util import *
 @click.argument('table')
 @click.argument('start-date')
 @click.argument('end-date')
-@click.argument('target', default='tigergraph')
-@click.option('--user', envvar='OSIRIS_GRAPH_SERVER_USER', default = None)
-@click.option('--passwd', envvar='OSIRIS_GRAPH_SERVER_PASS', default = None)
-@click.option('--token', envvar='OSIRIS_GRAPH_SERVER_TOKEN', default = None)
-def import_gdelt(table, start_date, end_date, target, user, passwd, token):
+@click.argument('target', default='tg')
+def import_gdelt(table, start_date, end_date, target):
    from data.gdelt import DataSource
    gdelt = DataSource()
    data:pd.DataFrame = gdelt.import_data(table, start_date, end_date)

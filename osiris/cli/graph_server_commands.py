@@ -1,10 +1,9 @@
 import time
-from datetime import datetime, timedelta, date
 from logging import info, error
 from typing_extensions import Required
 
 import click
-from rich import print
+from rich import print, print_json
 
 import osiris_global
 from cli.commands import graph_server as graph_server_cmd
@@ -33,14 +32,14 @@ def statistics(ctx:click.Context, seconds):
     print(graph_server.get_statistics(seconds))
 
 @graph_server_cmd.command('monitor', help = 'Start a daemon process to monitor a graph server.')
-@click.argument('ping', default=10)
+@click.argument('ping', default=59)
 @click.argument('report', default=59)
 @click.pass_context
 def monitor(ctx:click.Context, ping, report):
     from core.graph_server import i as graph_server
     orig_time = time.time()
     info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-    print(graph_server.get_statistics(report))
+    print_json(data=graph_server.get_statistics(report))
     info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
     last_ping_time = orig_time
     osiris_global.DAEMON = True
@@ -50,7 +49,7 @@ def monitor(ctx:click.Context, ping, report):
         if current_time - last_ping_time >= ping:
             stats = graph_server.get_statistics(report)
             info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-            print(stats)
+            print_json(data=stats)
             info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
             last_ping_time = current_time
 
