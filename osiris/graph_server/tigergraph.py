@@ -1,5 +1,8 @@
-from core.graph_server import GraphServer
+from base.timer import begin
+
 import pyTigerGraph as tg
+
+from core.graph_server import GraphServer
 
 class GraphServer(GraphServer):
     """A TigerGraph graph database server"""
@@ -34,5 +37,8 @@ class GraphServer(GraphServer):
         return self.conn.getStatistics(seconds)
 
     def query(self, q):
-        return self.conn.gsql(q)
+        with begin(f'Executing query on graph {self.graph_name}') as op:
+            r = self.conn.gsql(q)
+            op.complete()
+            return r
         
