@@ -1,6 +1,7 @@
 import time
 from datetime import datetime, timedelta, date
 from logging import info, error
+from typing_extensions import Required
 
 import click
 from rich import print
@@ -56,8 +57,15 @@ def monitor(ctx:click.Context, ping, report):
     info('osiris monitor daemon stopped.')
 
 @graph_server_cmd.command('query', help = 'Print graph server statistics')
-@click.argument('query_text')
+@click.option('--text', default=None, help='Use this as the query text.')
+@click.option('--file', type=click.Path(exists=True), default=None, help='Use the text in this file as the query text.')
 @click.pass_context
-def query_graph(ctx:click.Context, query_text):
+def query_graph(ctx:click.Context, text, file):
+    if text is None and file is None:
+        exit_with_error('You must specify either the query text using --text or --file.')
     from core.graph_server import i as graph_server
-    print(graph_server.query(query_text))
+    if text is not None:
+        print(graph_server.query(text))
+    else:
+        with open(file, 'r') as f:
+            print(graph_server.query(f.read()))
