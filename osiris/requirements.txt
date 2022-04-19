@@ -4,4 +4,4 @@ colorama
 pyfiglet
 jupyter
 pyTigerGraph
-google-cloud-bigquery
+google-cloud-bigquery[bqstorage,pandas]

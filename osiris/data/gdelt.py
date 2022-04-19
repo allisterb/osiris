@@ -9,7 +9,7 @@ from base.timer import begin
 from core.datasource import DataSource
 
 class DataSource(DataSource):
-    """Import and monitor data from GDELT"""
+    """Import and monitor data from the GDELT file server"""
 
     def __init__(self):
         super().__init__("GDELT")
