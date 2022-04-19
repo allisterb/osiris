@@ -3,7 +3,7 @@ DROP ALL
 USE GLOBAL
 
 CREATE VERTEX Event (
-    PRIMARY_ID id STRING,
+    PRIMARY_ID id INT,
     event_date DATETIME,
     source_url STRING,
     is_root BOOL,
