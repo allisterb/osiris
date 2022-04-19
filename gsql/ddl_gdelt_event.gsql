@@ -1,0 +1,56 @@
+// DROP ALL
+
+CREATE VERTEX Event (
+    PRIMARY_ID id STRING,
+    event_date DATETIME,
+    is_root BOOL,
+    code STRING,
+    cameo_code_description STRING,
+    event_base_code STRING,
+    quad_class UINT,
+    goldstein_scale FLOAT,
+    num_mentions UINT,
+    num_sources UINT,
+    num_article UINT,
+    avg_tone INT
+)
+
+CREATE VERTEX Actor1 (
+    PRIMARY_ID id STRING,
+    actor_code STRING,
+    actor_name STRING,
+    actor_country_code STRING,
+    actor_known_group_code STRING,
+    actor_ethnic_code STRING,
+    actor_religion STRING,
+    actor_type STRING,
+    actor_geo_type STRING,
+    actor_geo_fullname STRING,
+    actor_geo_country_code STRING,
+    actor_geo_adm_code STRING,
+    actor_geo_lat FLOAT,
+    actor_geo_long FLOAT,
+    actor_geo_feature_id
+)
+
+CREATE VERTEX Actor2 (
+    PRIMARY_ID id STRING,
+    actor_code STRING,
+    actor_name STRING,
+    actor_country_code STRING,
+    actor_known_group_code STRING,
+    actor_ethnic_code STRING,
+    actor_religion STRING,
+    actor_type STRING,
+    actor_geo_type STRING,
+    actor_geo_fullname STRING,
+    actor_geo_country_code STRING,
+    actor_geo_adm_code STRING,
+    actor_geo_lat FLOAT,
+    actor_geo_long FLOAT,
+    actor_geo_feature_id
+)
+
+CREATE UNDIRECTED EDGE Source(FROM Event, TO Actor1)
+
+CREATE UNDIRECTED EDGE Source(FROM Event, TO Actor2)
