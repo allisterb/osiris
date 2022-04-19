@@ -18,7 +18,7 @@ class GraphServer(GraphServer):
             
     def echo(self):
         return self.conn.echo()
-        
+
     def get_info(self):
         info = dict()
         e = self.conn.getEndpoints()
@@ -37,6 +37,12 @@ class GraphServer(GraphServer):
     def query(self, q):
         with begin(f'Executing query on graph {self.graph_name}') as op:
             r = self.conn.gsql(q)
+            op.complete()
+            return r
+
+    def load(self, job_name, file_tag, file_path):
+        with begin(f'Executing loading job {job_name} with file {file_path}') as op:
+            r = self.conn.uploadFile(jobName=job_name, filePath=file_path, fileTag=file_tag)
             op.complete()
             return r
         

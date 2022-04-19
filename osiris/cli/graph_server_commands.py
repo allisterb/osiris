@@ -47,7 +47,7 @@ def statistics(ctx:click.Context, seconds):
 @click.argument('interval', default=59)
 @click.argument('report', default=59)
 @click.pass_context
-def monitor(ctx:click.Context, interval, report):
+def monitor(_:click.Context, interval, report):
     from core.graph_server import i as graph_server
     orig_time = time.time()
     info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
@@ -71,7 +71,7 @@ def monitor(ctx:click.Context, interval, report):
 @click.option('--text', default=None, help='Use this as the query text.')
 @click.option('--file', type=click.Path(exists=True), default=None, help='Use the text in this file as the query text.')
 @click.pass_context
-def query_graph(ctx:click.Context, text, file):
+def query_graph(_:click.Context, text, file):
     if text is None and file is None:
         exit_with_error('You must specify either the query text using --text or --file.')
     from core.graph_server import i as graph_server
@@ -81,3 +81,12 @@ def query_graph(ctx:click.Context, text, file):
         info(f'Using file {file} as query source.')
         with open(file, 'r') as f:
             print(graph_server.query(f.read()))
+
+@graph_server_cmd.command('load', help = 'Load data into graph server using a loading job and local file.')
+@click.argument('jobname')
+@click.argument('filetag')
+@click.argument('filepath', type=click.Path(exists=True))
+@click.pass_context
+def load(_:click.Context, jobname, filetag, filepath):
+    from core.graph_server import i as graph_server
+    print(graph_server.load(jobname, filetag, filepath))

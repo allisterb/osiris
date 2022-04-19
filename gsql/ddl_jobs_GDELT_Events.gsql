@@ -1,0 +1,8 @@
+USE GRAPH GDELT_EVENTS
+
+DROP JOB load_event_data
+
+CREATE LOADING JOB load_event_data FOR GRAPH GDELT_EVENTS  {
+   DEFINE FILENAME file1; 
+   LOAD file1 TO VERTEX Event VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) USING SEPARATOR=",", HEADER="TRUE";
+}

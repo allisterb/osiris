@@ -36,5 +36,10 @@ class GraphServer(abc.ABC):
     @abc.abstractmethod
     def query(self, str):
         """Run a query on the graph server."""
+
+    @abc.abstractmethod
+    def load(self, job_name, file_tag, file_path):
+        """Run a data load job using a file."""
+
 # Instance of a GraphServer.
 i: GraphServer = None

@@ -3,7 +3,7 @@ DROP ALL
 USE GLOBAL
 
 CREATE VERTEX Event (
-    id STRING PRIMARY KEY,
+    PRIMARY_ID id STRING,
     event_date DATETIME,
     source_url STRING,
     is_root BOOL,
@@ -26,7 +26,7 @@ CREATE VERTEX Event (
 ) WITH STATS = "none"
 
 CREATE VERTEX Actor1 (
-    id STRING PRIMARY KEY,
+    PRIMARY_ID id STRING,
     actor_code STRING,
     actor_name STRING,
     actor_country_code STRING,
@@ -44,7 +44,7 @@ CREATE VERTEX Actor1 (
 )
 
 CREATE VERTEX Actor2 (
-    id STRING PRIMARY KEY,
+    PRIMARY_ID id STRING,
     actor_code STRING,
     actor_name STRING,
     actor_country_code STRING,
@@ -61,14 +61,24 @@ CREATE VERTEX Actor2 (
     actor_geo_feature_id STRING
 )
 
-CREATE VERTEX Social_Media_Acct (
+CREATE DIRECTED EDGE Acted(FROM Actor1, TO Event) WITH REVERSE_EDGE="Action_Source"
+
+CREATE DIRECTED EDGE Action_Target(FROM Event, TO Actor2) WITH REVERSE_EDGE="Acted_on"
+
+CREATE VERTEX SM_Acct (
     PRIMARY_ID id STRING,
     user_name STRING,
     site STRING 
-) 
+)
 
-CREATE DIRECTED EDGE Acted(FROM Actor1, TO Event) WITH REVERSE_EDGE="Event_Source"
+CREATE DIRECTED EDGE Follows(FROM SM_Acct, TO SM_Acct)
 
-CREATE DIRECTED EDGE Event_Target(FROM Event, TO Actor2) WITH REVERSE_EDGE="Acted_On"
+CREATE VERTEX SM_Post (
+    PRIMARY_ID id STRING,
+)
 
-CREATE GRAPH GDELT_EVENTS(*)
+CREATE DIRECTED EDGE Posted(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Posted_By"
+
+CREATE DIRECTED EDGE Liked(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Liked_By"
+
+CREATE GRAPH GDELT_Events (*)

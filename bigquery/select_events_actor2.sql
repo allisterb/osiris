@@ -1,5 +1,5 @@
 declare start_date INT64 DEFAULT 20220000;
-declare end_date INT64 DEFAULT 20220420;
+declare end_date INT64 DEFAULT 20220421;
 
 select distinct
     sha1(concat(
@@ -22,15 +22,16 @@ select distinct
         ifnull(Actor2Geo_Long, 0.0),
         ifnull(Actor2Geo_FeatureID, '')
     )) as ActorID,
+    GLOBALEVENTID as EventID,
     Actor2Code as ActorCode, 
-    Actor2Name as ActorName, 
+    replace(Actor2Name, ',', ';') as ActorName, 
     Actor2CountryCode as ActorCountryCode, 
     Actor2KnownGroupCode as ActorKnownGroupCode, 
     Actor2EthnicCode as ActorEthnicCode, 
     nullif(trim(concat(ifnull(Actor2Religion1Code, ''), ' ', ifnull(Actor2Religion2Code, ''))), '')  as ActorReligion,
     nullif(trim(concat(ifnull(Actor2Type1Code, ''), ' ', ifnull(Actor2Type2Code, ''), ' ', ifnull(Actor2Type3Code, ''))), '') as ActorType,
     Actor2Geo_Type as ActorGeo_Type, 
-    Actor2Geo_FullName as ActorGeo_FullName, 
+    replace(Actor2Geo_FullName, ',', ';') as ActorGeo_FullName, 
     Actor2Geo_CountryCode as ActorGeo_CountryCode, 
     nullif(trim(concat(ifnull(Actor2Geo_ADM1Code, ''), ' ', ifnull(Actor2Geo_ADM2Code, ''))), '') as ActorGeo_ADMCode, 
     Actor2Geo_Lat as ActorGeo_Lat, 
@@ -38,5 +39,4 @@ select distinct
     Actor2Geo_FeatureID as ActorGeo_FeatureID,
     parse_date('%Y%m%d', cast(SQLDATE as string)) AS EventDate 
     from `gdelt-bq.gdeltv2.events`
-    where SQLDATE > start_date and SQLDATE < end_date
-
+    where SQLDATE > start_date and SQLDATE < end_date;
