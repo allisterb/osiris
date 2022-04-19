@@ -3,7 +3,8 @@ from logging import info, error
 from typing_extensions import Required
 
 import click
-from rich import print, print_json
+from rich import print
+from base.timer import begin
 
 import osiris_global
 from cli.commands import graph_server as graph_server_cmd
@@ -15,6 +16,17 @@ from cli.util import *
 def get_token(ctx:click.Context, secret):
     from core.graph_server import i as graph_server
     print(graph_server.get_token(secret))
+
+@graph_server_cmd.command('ping', help = 'Verify connectivity to a graph server instance.')
+@click.pass_context
+def ping(ctx:click.Context):
+    from core.graph_server import i as graph_server
+    with begin('Testing connectivity to REST++ API') as op:
+        graph_server.get_statistics(1)
+        op.complete()
+    with begin('Testing connectivity to GSQL') as op:
+        print(graph_server.echo())
+        op.complete()
 
 @graph_server_cmd.command('info', help = 'Print info on graph server')
 @click.pass_context
@@ -32,15 +44,15 @@ def statistics(ctx:click.Context, seconds):
     print(graph_server.get_statistics(seconds))
 
 @graph_server_cmd.command('monitor', help = 'Start a daemon process to monitor a graph server.')
-@click.argument('ping', default=59)
+@click.argument('interval', default=59)
 @click.argument('report', default=59)
 @click.pass_context
-def monitor(ctx:click.Context, ping, report):
+def monitor(ctx:click.Context, interval, report):
     from core.graph_server import i as graph_server
     orig_time = time.time()
     info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-    print_json(data=graph_server.get_statistics(report))
-    info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
+    print(data=graph_server.get_statistics(report))
+    info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {interval} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
     last_ping_time = orig_time
     osiris_global.DAEMON = True
     while not osiris_global.KBINPUT:
@@ -49,7 +61,7 @@ def monitor(ctx:click.Context, ping, report):
         if current_time - last_ping_time >= ping:
             stats = graph_server.get_statistics(report)
             info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-            print_json(data=stats)
+            print(data=stats)
             info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {ping} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
             last_ping_time = current_time
 
@@ -66,5 +78,6 @@ def query_graph(ctx:click.Context, text, file):
     if text is not None:
         print(graph_server.query(text))
     else:
+        info(f'Using file {file} as query source.')
         with open(file, 'r') as f:
             print(graph_server.query(f.read()))

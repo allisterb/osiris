@@ -14,13 +14,11 @@ class GraphServer(GraphServer):
         self.user = user
         self.passwd = passwd
         self.token = token
-        if self.token is not None and self.passwd is None:
-            self.conn = tg.TigerGraphConnection(host=self.host, graphname=self.graph_name, apiToken=self.token)
-        else:
-            assert self.user is not None
-            assert self.passwd is not None
-            self.conn = tg.TigerGraphConnection(host=self.host, graphname=self.graph_name, username=self.user, password=self.passwd)
+        self.conn = tg.TigerGraphConnection(host=self.host, graphname=self.graph_name, username=self.user, password=self.passwd, apiToken=self.token)
             
+    def echo(self):
+        return self.conn.echo()
+        
     def get_info(self):
         info = dict()
         e = self.conn.getEndpoints()

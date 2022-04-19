@@ -1,22 +1,32 @@
-// DROP ALL
+DROP ALL
+
+USE GLOBAL
 
 CREATE VERTEX Event (
-    PRIMARY_ID id STRING,
+    id STRING PRIMARY KEY,
     event_date DATETIME,
+    source_url STRING,
     is_root BOOL,
-    code STRING,
-    cameo_code_description STRING,
-    event_base_code STRING,
-    quad_class UINT,
+    cameo_code STRING,
+    cameo_base_code STRING,
+    cameo_root_code STRING,
+    cameo_quad_class UINT,
     goldstein_scale FLOAT,
     num_mentions UINT,
     num_sources UINT,
     num_article UINT,
-    avg_tone INT
-)
+    avg_tone FLOAT,
+    geo_type STRING,
+    geo_fullname STRING,
+    geo_country_code STRING,
+    geo_adm_code STRING,
+    geo_lat FLOAT,
+    geo_long FLOAT,
+    geo_feature_id STRING
+) WITH STATS = "none"
 
 CREATE VERTEX Actor1 (
-    PRIMARY_ID id STRING,
+    id STRING PRIMARY KEY,
     actor_code STRING,
     actor_name STRING,
     actor_country_code STRING,
@@ -30,11 +40,11 @@ CREATE VERTEX Actor1 (
     actor_geo_adm_code STRING,
     actor_geo_lat FLOAT,
     actor_geo_long FLOAT,
-    actor_geo_feature_id
+    actor_geo_feature_id STRING
 )
 
 CREATE VERTEX Actor2 (
-    PRIMARY_ID id STRING,
+    id STRING PRIMARY KEY,
     actor_code STRING,
     actor_name STRING,
     actor_country_code STRING,
@@ -48,9 +58,17 @@ CREATE VERTEX Actor2 (
     actor_geo_adm_code STRING,
     actor_geo_lat FLOAT,
     actor_geo_long FLOAT,
-    actor_geo_feature_id
+    actor_geo_feature_id STRING
 )
 
-CREATE UNDIRECTED EDGE Source(FROM Event, TO Actor1)
+CREATE VERTEX Social_Media_Acct (
+    PRIMARY_ID id STRING,
+    user_name STRING,
+    site STRING 
+) 
 
-CREATE UNDIRECTED EDGE Source(FROM Event, TO Actor2)
+CREATE DIRECTED EDGE Acted(FROM Actor1, TO Event) WITH REVERSE_EDGE="Event_Source"
+
+CREATE DIRECTED EDGE Event_Target(FROM Event, TO Actor2) WITH REVERSE_EDGE="Acted_On"
+
+CREATE GRAPH GDELT_EVENTS(*)

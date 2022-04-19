@@ -18,6 +18,10 @@ class GraphServer(abc.ABC):
         self.args = args
 
     @abc.abstractmethod
+    def echo(self):
+        """Make a basic query on a graph database server."""
+
+    @abc.abstractmethod
     def get_info(self):
         """Get information on graph database server."""
 
