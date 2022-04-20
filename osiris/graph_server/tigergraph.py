@@ -24,6 +24,8 @@ class GraphServer(GraphServer):
         e = self.conn.getEndpoints()
         p = self.conn._get(
             self.conn.restppUrl + "/showprocesslist/" + self.graph_name, resKey=None)
+        info['edges'] = self.conn.getEdgeStats("*")
+        info['vertices'] = self.conn.getVertexStats("*")
         info['endpoints'] = e
         info['process list'] = p['results']
         return info
@@ -32,12 +34,8 @@ class GraphServer(GraphServer):
         return self.conn.getToken(api_secret)
 
     def get_statistics(self, seconds=59):
-        stats = dict()
-        stats['edges'] = self.conn.getEdgeStats("*")
-        stats['vertices'] = self.conn.getVertexStats("*")
-        stats['api'] = self.conn.getStatistics(seconds)
-        return stats
-
+        return self.conn.getStatistics(seconds)
+        
     def query(self, q):
         with begin(f'Executing query on graph {self.graph_name}') as op:
             r = self.conn.gsql(q)

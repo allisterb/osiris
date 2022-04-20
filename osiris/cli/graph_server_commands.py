@@ -28,7 +28,7 @@ def ping(ctx:click.Context):
         print(graph_server.echo())
         op.complete()
 
-@graph_server_cmd.command('info', help = 'Print info on graph server')
+@graph_server_cmd.command('info', help = 'Print info on graph server objects and endpoints.')
 @click.pass_context
 def info_cmd(ctx:click.Context):
     from core.graph_server import i as graph_server

@@ -1,5 +1,5 @@
 select distinct
-    sha1(concat(
+    to_base64(sha1(concat(
         ifnull(Actor2Code,''), 
         ifnull(Actor2Name, ''), 
         ifnull(Actor2CountryCode, ''), 
@@ -18,7 +18,7 @@ select distinct
         ifnull(Actor2Geo_Lat, 0.0), 
         ifnull(Actor2Geo_Long, 0.0),
         ifnull(Actor2Geo_FeatureID, '')
-    )) as ActorID,
+    ))) as ActorID,
     GLOBALEVENTID as EventID,
     Actor2Code as ActorCode, 
     replace(Actor2Name, ',', ';') as ActorName, 

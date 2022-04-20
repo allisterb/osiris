@@ -3,6 +3,7 @@ USE GRAPH GDELT_Events
 DROP JOB actor1_data
 DROP JOB actor2_data
 DROP JOB actions_data
+DROP JOB mentions_data
 
 CREATE LOADING JOB actor1_data FOR GRAPH GDELT_Events  {
    DEFINE FILENAME file1; 
@@ -19,4 +20,10 @@ CREATE LOADING JOB actions_data FOR GRAPH GDELT_Events  {
    LOAD file1 TO VERTEX Event VALUES ($0, _, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) USING SEPARATOR=",", HEADER="TRUE";
    LOAD file1 TO EDGE Acted VALUES ($1, $0, $3) USING SEPARATOR=",", HEADER="TRUE";
    LOAD file1 TO EDGE Action_Target VALUES ($0, $2, $3) USING SEPARATOR=",", HEADER="TRUE";
+}
+
+CREATE LOADING JOB mentions_data FOR GRAPH GDELT_Events  {
+   DEFINE FILENAME file1; 
+   LOAD file1 TO VERTEX Story VALUES ($0, $2, $4) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO EDGE Mention VALUES ($0, $1, $6) USING SEPARATOR=",", HEADER="TRUE";
 }
