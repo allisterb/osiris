@@ -32,7 +32,11 @@ class GraphServer(GraphServer):
         return self.conn.getToken(api_secret)
 
     def get_statistics(self, seconds=59):
-        return self.conn.getStatistics(seconds)
+        stats = dict()
+        stats['edges'] = self.conn.getEdgeStats("*")
+        stats['vertices'] = self.conn.getVertexStats("*")
+        stats['api'] = self.conn.getStatistics(seconds)
+        return stats
 
     def query(self, q):
         with begin(f'Executing query on graph {self.graph_name}') as op:
@@ -45,4 +49,3 @@ class GraphServer(GraphServer):
             r = self.conn.uploadFile(jobName=job_name, filePath=file_path, fileTag=file_tag)
             op.complete()
             return r
-        

@@ -61,24 +61,16 @@ CREATE VERTEX Actor2 (
     actor_geo_feature_id STRING
 )
 
-CREATE DIRECTED EDGE Acted(FROM Actor1, TO Event) WITH REVERSE_EDGE="Action_Source"
+CREATE DIRECTED EDGE Acted(
+    FROM Actor1, 
+    TO Event, 
+    event_date DATETIME
+) WITH REVERSE_EDGE="Action_Source"
 
-CREATE DIRECTED EDGE Action_Target(FROM Event, TO Actor2) WITH REVERSE_EDGE="Acted_on"
-
-CREATE VERTEX SM_Acct (
-    PRIMARY_ID id STRING,
-    user_name STRING,
-    site STRING 
-)
-
-CREATE DIRECTED EDGE Follows(FROM SM_Acct, TO SM_Acct)
-
-CREATE VERTEX SM_Post (
-    PRIMARY_ID id STRING
-)
-
-CREATE DIRECTED EDGE Posted(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Posted_By"
-
-CREATE DIRECTED EDGE Liked(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Liked_By"
+CREATE DIRECTED EDGE Action_Target(
+    FROM Event, 
+    TO Actor2,
+    event_date DATETIME
+    ) WITH REVERSE_EDGE="Acted_on"
 
 CREATE GRAPH GDELT_Events(*)

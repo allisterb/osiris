@@ -17,6 +17,6 @@ CREATE LOADING JOB actor2_data FOR GRAPH GDELT_Events  {
 CREATE LOADING JOB actions_data FOR GRAPH GDELT_Events  {
    DEFINE FILENAME file1; 
    LOAD file1 TO VERTEX Event VALUES ($0, _, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) USING SEPARATOR=",", HEADER="TRUE";
-   LOAD file1 TO EDGE Acted VALUES ($1, $0) USING SEPARATOR=",", HEADER="TRUE";
-   LOAD file1 TO EDGE Action_Target VALUES ($0, $2) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO EDGE Acted VALUES ($1, $0, $3) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO EDGE Action_Target VALUES ($0, $2, $3) USING SEPARATOR=",", HEADER="TRUE";
 }
