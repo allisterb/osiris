@@ -24,9 +24,9 @@ class GraphServer(GraphServer):
         e = self.conn.getEndpoints()
         p = self.conn._get(
             self.conn.restppUrl + "/showprocesslist/" + self.graph_name, resKey=None)
+        info['endpoints'] = self.conn.getEndpoints(True, True)
         info['edges'] = self.conn.getEdgeStats("*")
         info['vertices'] = self.conn.getVertexStats("*")
-        info['endpoints'] = e
         info['process list'] = p['results']
         return info
 
