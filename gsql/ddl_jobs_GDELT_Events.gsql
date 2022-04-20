@@ -1,8 +1,22 @@
-USE GRAPH GDELT_EVENTS
+USE GRAPH GDELT_Events
 
-DROP JOB load_event_data
+DROP JOB actor1_data
+DROP JOB actor2_data
+DROP JOB actions_data
 
-CREATE LOADING JOB load_event_data FOR GRAPH GDELT_EVENTS  {
+CREATE LOADING JOB actor1_data FOR GRAPH GDELT_Events  {
    DEFINE FILENAME file1; 
-   LOAD file1 TO VERTEX Event VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO VERTEX Actor1 VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) USING SEPARATOR=",", HEADER="TRUE";
+}
+
+CREATE LOADING JOB actor2_data FOR GRAPH GDELT_Events  {
+   DEFINE FILENAME file1; 
+   LOAD file1 TO VERTEX Actor2 VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) USING SEPARATOR=",", HEADER="TRUE";
+}
+
+CREATE LOADING JOB actions_data FOR GRAPH GDELT_Events  {
+   DEFINE FILENAME file1; 
+   LOAD file1 TO VERTEX Event VALUES ($0, _, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO EDGE Acted VALUES ($1, $0) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO EDGE Action_Target VALUES ($0, $2) USING SEPARATOR=",", HEADER="TRUE";
 }

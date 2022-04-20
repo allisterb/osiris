@@ -1,10 +1,11 @@
-from email.policy import default
+import csv
 from logging import info, error
 
 import pandas as pd
 import click
 from rich import print
 
+from base.timer import begin
 from cli.commands import data_import
 from cli.util import *
 
@@ -12,13 +13,15 @@ from cli.util import *
 @click.argument('table')
 @click.argument('start-date')
 @click.argument('end-date')
+@click.argument('filename', type=click.Path())
 @click.argument('target', default='csv')
-def import_gdelt(table, start_date, end_date, target):
+def import_gdelt(table, start_date, end_date, filename, target):
    from data.gdelt import DataSource
    gdelt = DataSource()
-   data:pd.DataFrame = gdelt.import_data(table, start_date, end_date)
-   data.info()
-   print(data.head())
+   df:pd.DataFrame = gdelt.import_data(table, start_date, end_date)
+   with begin(f'Writing data to CSV file {filename}') as op:
+      df.to_csv(filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      op.complete()
 
 
 @data_import.command('bigquery', help='Import data from a Google BigQuery table into a graph database server.')
@@ -28,8 +31,13 @@ def import_gdelt(table, start_date, end_date, target):
 @click.argument('bq-arg')
 @click.option('--limit', type=int, default=None)
 @click.argument('tg-table')
+@click.argument('filename', type=click.Path())
 @click.argument('target', default='csv')
-def import_bigquery(google_app_creds, kind, bq_arg, limit, tg_table, target):
+def import_bigquery(google_app_creds, kind, bq_arg, limit, tg_table, filename, target):
    from data import bigquery
    bigquery = bigquery.DataSource()
-   print(bigquery.import_data(kind, bq_arg, limit))
+   df:pd.DataFrame = bigquery.import_data(kind, bq_arg, limit)
+   with begin(f'Writing data to CSV file {filename}') as op:
+      df.to_csv(filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      op.complete()
+

@@ -23,7 +23,7 @@ CREATE VERTEX Event (
     geo_lat FLOAT,
     geo_long FLOAT,
     geo_feature_id STRING
-) WITH STATS = "none"
+)
 
 CREATE VERTEX Actor1 (
     PRIMARY_ID id STRING,
@@ -74,11 +74,11 @@ CREATE VERTEX SM_Acct (
 CREATE DIRECTED EDGE Follows(FROM SM_Acct, TO SM_Acct)
 
 CREATE VERTEX SM_Post (
-    PRIMARY_ID id STRING,
+    PRIMARY_ID id STRING
 )
 
 CREATE DIRECTED EDGE Posted(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Posted_By"
 
 CREATE DIRECTED EDGE Liked(FROM SM_Acct, TO SM_Post) WITH REVERSE_EDGE="Liked_By"
 
-CREATE GRAPH GDELT_Events (*)
+CREATE GRAPH GDELT_Events(*)

@@ -1,6 +1,3 @@
-declare start_date INT64 DEFAULT 20220000;
-declare end_date INT64 DEFAULT 20220421;
-
 select distinct
     sha1(concat(
         ifnull(Actor1Code,''), 
@@ -39,4 +36,4 @@ select distinct
     Actor1Geo_FeatureID as ActorGeo_FeatureID,
     parse_date('%Y%m%d', cast(SQLDATE as string)) AS EventDate 
     from `gdelt-bq.gdeltv2.events`
-    where SQLDATE > start_date and SQLDATE < end_date;
+    where SQLDATE > 20220000 and SQLDATE < 20220421;

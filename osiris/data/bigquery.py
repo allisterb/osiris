@@ -12,12 +12,11 @@ class DataSource(DataSource):
         super().__init__("Google BigQuery")
         self.bqclient = bigquery.Client()
    
-
     def get_info(self):
         pass
     
-    def import_data_table(self,bq_table, limit=None):
-        with begin(f'Retrieving row iterator from BigQuery table {bq_table}') as op:
+    def import_data_table(self, bq_table, limit=None):
+        with begin(f'Retrieving data from BigQuery table {bq_table}') as op:
             table = bigquery.TableReference.from_string(bq_table)
             rows = self.bqclient.list_rows(table, max_results=limit)
             df = rows.to_dataframe(create_bqstorage_client=True)
@@ -40,4 +39,4 @@ class DataSource(DataSource):
         elif query_type == 'query':
             return self.import_data_query(args[0])
         else:
-            raise "Unsupported query type"
+            raise "Unsupported BigQuery query type."
