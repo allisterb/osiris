@@ -23,7 +23,7 @@ CREATE VERTEX Event (
     geo_lat FLOAT,
     geo_long FLOAT,
     geo_feature_id STRING
-)
+) WITH primary_id_as_attribute="TRUE"
 
 CREATE VERTEX Actor1 (
     PRIMARY_ID id STRING,
@@ -41,7 +41,7 @@ CREATE VERTEX Actor1 (
     actor_geo_lat FLOAT,
     actor_geo_long FLOAT,
     actor_geo_feature_id STRING
-)
+) WITH primary_id_as_attribute="TRUE"
 
 CREATE VERTEX Actor2 (
     PRIMARY_ID id STRING,
@@ -59,7 +59,7 @@ CREATE VERTEX Actor2 (
     actor_geo_lat FLOAT,
     actor_geo_long FLOAT,
     actor_geo_feature_id STRING
-)
+) WITH primary_id_as_attribute="TRUE"
 
 CREATE DIRECTED EDGE Acted(
     FROM Actor1, 
