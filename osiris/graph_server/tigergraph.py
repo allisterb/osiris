@@ -30,6 +30,9 @@ class GraphServer(GraphServer):
         info['process list'] = p['results']
         return info
 
+    def create_secret(self, alias):
+        return self.conn.createSecret(alias)
+
     def get_token(self, api_secret=''):
         return self.conn.getToken(api_secret)
 

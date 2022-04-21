@@ -26,8 +26,12 @@ class GraphServer(abc.ABC):
         """Get information on graph database server."""
 
     @abc.abstractmethod
+    def create_secret(self, *args):
+        """Create an API secret to use to access graph database server."""
+
+    @abc.abstractmethod
     def get_token(self, api_secret=''):
-        """Get an authentication token to use with graph database server."""
+        """Get an authentication token to access graph database server."""
         
     @abc.abstractmethod
     def get_statistics(self, seconds=59):
