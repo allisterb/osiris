@@ -2,5 +2,5 @@
 	path = ext/gdeltPyR
 	url = https://github.com/allisterb/gdeltPyR.git
 [submodule "ext/pygraphistry"]
-	path = ext/pygraphistry
+	path = ext/graphistry
 	url = https://github.com/allisterb/pygraphistry.git
