@@ -60,11 +60,26 @@ years."
 are very active research areas."
 
 There are very few (possibly none) freely-available solutions for effectively using graph-based models and algorithmic approaches to conflict forecasting like graph deep learning on the massive amount of [automatically coded spatio-temporal political event data](http://data.gdeltproject.org/documentation/ISA.2013.GDELT.pdf)  from projects like [GDELT](https://www.gdeltproject.org/). There are many methods for [political event forecasting using deep-learning](https://arxiv.org/abs/2112.06345) and many open-source libraries available for doing deep learing including [graph deep learning](https://www.dgl.ai/), and the more data ML models are fed they better they perform. But ressearchers are not database experts and working with the large [tabular denormalized datasets](https://www.gdeltproject.org/data.html#rawdatafiles) GDELT provides  is a daunting task. Even using the massive resources of [Google BigQuery](https://blog.gdeltproject.org/a-compilation-of-gdelt-bigquery-demos/), SQL queries for getting normalized GDELT data in a node-edge format suitable for graph analysis are complex, requiring multiple joins and subqueries and very costly and slow to run. Just getting data into a CSV file for network analysis and visualization can be very difficult as the raw GDELT is split among thousands of files updated very 15mins and Google caps how much data an ordinary user can export to CSV out of BigQuery.
+
 ## Description
 
-"Explain what your project is trying to accomplish and how you utilized graph technology to achieve those goals."
-
 **osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based methods and models and visualization.**
+
+Conflict in societies can be naturally modelled as graphs and networks e.g consider the graph diagram below 
+![g](https://dm2301files.storage.live.com/y4m02Z0glxGHexjaEhMCGi825lIRrO_7YaKKWf9smTq6AoR_wCGOJjcfxUcP4h-HjEuVL3WjqOZCPFEQsKa-IUKjZlQDc1L-ysQI_LcmWQZrwtjEsEvHGEHA9C-m3Kqs0aaz_UJdBnJ0UuI2vTMpEIofQOCwT1KeZALS8CVj_nE6W-uG2u08V2l0QhUxHVOn9zx?width=1986&height=901&cropmode=none)
+
+The diagram captures a tiny part of the conflict that erupted in the U.S. in the summer of 2020 during the presidency of Donald J. Trump. Organizations and movements like BLM and Antifa staged violent protests over the police killing of George Floyd  in response to which President Trump criticized these organizations and ordered further mobilization of police and other security forces.
+
+The larger vertices outlined in orange represent *events* while the smaller vertices represent *actors*. Each event has spatio-temporal attributes and is [coded](https://en.wikipedia.org/wiki/Conflict_and_Mediation_Event_Observations) using a standard classification like `1823 KILL BY PHYSICAL ASSAULT` or `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS`,
+Directed edges connect actors with events with each event being connected to a dyad or pair of actors where one actor is the *source* of the event action and the other the *target*. Using this model we observe:
+
+* Actors initiate and receive event actions and events connect to other events only through actor vertices.
+* If an event A is possible cause of B then A must happen before B and a path must exist from B to A passing only through event vertices that also precede B.
+* A sequence or chain of events leading to a violent event may show increasing levels of intensity e.g `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS` -> `153 MOBILIZE OR INCREASE POLICE POWER` -> `1823 KILL BY PHYSICAL ASSAULT`. The event coding reflects this increase numerically.
+* A typical news day globally would comprise a network of tens of thousands of event vertices and edges like these.
+
+This global event data may be harvested from the massive amount of news stories published and available online each day where a *story* will *mention* a particular event on a particular date together with the actors involved. A schema in TigerGraph for this model of events and news would look like
+![gdelt_event_schema](https://dm2301files.storage.live.com/y4mEJMfRYpOgh_8PPTHp-k45OLbUuXThve4zBdAg-FZ7cR8JjtxaahKI-l0n8dSXoPKQA1QOvaIOW5YOpkA2mMuE1VCkQlIDyCjmoEaJHgy3Uxfpq_ZLOB5SBw88JfjT8zq2K-IwXbkfmIl7fHPMpVahvTG1ASLOPf3UGKo4gDH6HS6O7RlaYptEPu3gMhp2Jjw?width=1535&height=705&cropmode=none)
 
 osiris is designed to allow researchers and workers in technical conflict forecasting to easily and effectively use statistical and algorithmic methods like graph deep learning on the massive amounts of automatically extracted and coded spatio-temporal political event data from the  [GDELT](https://www.gdeltproject.org/) large-scale event dataset. osiris tries to solve all the common problems of working with the enormous amounts of  GDELT data, from extracting the existing denormalized tabular data from Google BigQuery or the GDELT file server, transforming it into a node-vertex schema and loading it into the graph database, to executing queries against graph data, and visualizing large graph datasets using Graphistry GPU-accelerated graph visualization.
 
