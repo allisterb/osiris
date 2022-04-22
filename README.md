@@ -14,7 +14,10 @@ theoretical principles or to induce them from past experience...seasoned politic
 
 Forecasting is an essential activity in many key areas like climate studies and economics and finance. Our inability to forecast political conflict and societal violence makes the world a more dangerous place.
 
-The rationalist approach to predicting crises assumes there are theoretical models and casual structures we can discover using our reason that are necessary to reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. 
+![pol](https://dm2301files.storage.live.com/y4mOpcp6TX-t4AoBoXYnCDUIhHJcuGJm8JpJBf1TU8XrwnvFi2Ds-CfJvBmo_O1kPwVptYc9IQBiBM_VRDxkZTFSqRMz1fP5C0NGCocyc3H_qnC_LTiwhxyuAQejoG3lphg6tlYZ0l2lmNqVQicXA7fg8kVXnBvat2tQP7zUhl4NH6B7KPI9EK6Ctq7-sfVyXcG?width=2000&height=1600&cropmode=none)
+*Can events like these be predicted?*
+
+The rationalist approach to predicting crises assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. 
 
 Computational methods for data-driven forecasting using *algorithms* can be better than traditional statistical models with static parameters e.g. [Phil Schrodt](https://www.benjaminbagozzi.com/uploads/1/2/5/7/12579534/data-based-computational-approahes-to-forecasting-political-violence.pdf)
 >Although more traditional “statistical” models still dominate quantitative studies
