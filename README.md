@@ -1,5 +1,7 @@
 # osiris
-![logo](https://dm2301files.storage.live.com/y4mmRC1xelS6Y6MEqUnZ-k2vjpADHpo6UMZAaZWROunr9-Ml5FYDlZ6WMxCGedy7NDhwDpusZdF5E1oLR5Qn6momydHe7tYUOMwNeFeGW7pUWkBjGPSnZp2sacYWs9IKkose6xjhSySL_v2tbfItRI7T_Pw_Tayhaa2F_vrwW6ucyr6WPa6s9DWH_if9Y5Y3yAU?width=750&height=500&cropmode=none)
+<p align="center">
+<img src="https://dm2301files.storage.live.com/y4mmRC1xelS6Y6MEqUnZ-k2vjpADHpo6UMZAaZWROunr9-Ml5FYDlZ6WMxCGedy7NDhwDpusZdF5E1oLR5Qn6momydHe7tYUOMwNeFeGW7pUWkBjGPSnZp2sacYWs9IKkose6xjhSySL_v2tbfItRI7T_Pw_Tayhaa2F_vrwW6ucyr6WPa6s9DWH_if9Y5Y3yAU?width=375&height=250&cropmode=none"/>
+</p>
 
 Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
 
