@@ -5,7 +5,7 @@ Information below is for my entry into the [TigerGraph Graph for All hackathon](
 
 ## Predict Global Crises
 
-Forecasting crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police abd military resource allocation. Very few phenomena have the same impact on the economic and financial states of a country than wars, invasions, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
+Forecasting crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the same impact on the economic and financial states of a country than wars, invasions, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
 History functions as a series of unfolding events, with highly contingent branching paths sometimes separated by mere
