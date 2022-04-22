@@ -23,21 +23,28 @@ def import_gdelt(table, start_date, end_date, filename, target):
       df.to_csv(filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
       op.complete()
 
-
-@data_import.command('bigquery', help='Import data from a Google BigQuery table into a graph database server.')
+@data_import.command('bigquery', help='Import GDELTdata from a Google BigQuery table into a graph database server.')
 @click.option('--google-app-creds', envvar="GOOGLE_APPLICATION_CREDENTIALS")
-@click.option('--query', 'kind', flag_value='query',  help='Retrieve data from a BigQuery table')
-@click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data using a BigQuery query')
-@click.argument('bq-arg')
+@click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
+@click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
 @click.option('--limit', type=int, default=None)
-@click.argument('tg-table')
+@click.argument('bq-arg')
 @click.argument('filename', type=click.Path())
-@click.argument('target', default='csv')
-def import_bigquery(google_app_creds, kind, bq_arg, limit, tg_table, filename, target):
+def import_bigquery(google_app_creds, kind, limit, bq_arg, filename):
    from data import bigquery
+   from bq_iterate import BqQueryRowIterator, batchify_iterator
    bigquery = bigquery.DataSource()
-   df:pd.DataFrame = bigquery.import_data(kind, bq_arg, limit)
+   rows = bigquery.import_data(kind, bq_arg, limit)
+   
    with begin(f'Writing data to CSV file {filename}') as op:
-      df.to_csv(filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      #df.iloc[0:500000].to_csv('1' + filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      #df.iloc[500000:1500000].to_csv('2' + filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      #df.iloc[0:5000].to_csv('1' + filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      gg =  (pd.DataFrame(rows[:10000]))
       op.complete()
+
+  # with begin(f'Writing data to CSV file {filename}') as op:
+
+      #df.iloc[5000:10000].to_csv('2' + filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
+      #op.complete()
 

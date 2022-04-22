@@ -11,6 +11,8 @@ KBINPUT = False
 
 INTERACTIVE_CLI = False
 
+INTERACTIVE_NOTEBOOK = False
+
 DAEMON = False
 
 def set_log_level(debug):
@@ -40,4 +42,4 @@ def kb_capture_thread():
         info('Ctrl-C pressed...')
         KBINPUT = True
         if INTERACTIVE_CLI:
-            info('Stop requested.')
+            info('Program stop requested.')

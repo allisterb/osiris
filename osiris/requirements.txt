@@ -5,3 +5,4 @@ pyfiglet
 jupyter
 pyTigerGraph
 google-cloud-bigquery[bqstorage,pandas]
+graphistry

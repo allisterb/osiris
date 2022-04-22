@@ -13,10 +13,4 @@ if not "%2"=="" (
     echo You must specify a graph server user password as the 2nd argument.
     exit 1
 )
-
-if not "%3"=="" (
-   set OSIRIS_GRAPH_SERVER_TOKEN=%3
-) else (
-    echo You must specify a graph server authentication token as the 3rd argument.
-    exit 1
-)
+echo OSIRIS_GRAPH_SERVER_USER and OSIRIS_GRAPH_SERVER_PASS set. 

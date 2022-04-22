@@ -1,6 +1,5 @@
 import time
 from logging import info, error
-from typing_extensions import Required
 
 import click
 from rich import print
