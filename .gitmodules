@@ -4,3 +4,6 @@
 [submodule "ext/pygraphistry"]
 	path = ext/graphistry
 	url = https://github.com/allisterb/pygraphistry.git
+[submodule "ext/bq_iterate"]
+	path = ext/bq_iterate
+	url = https://github.com/allisterb/bq_iterate.git
