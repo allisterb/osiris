@@ -5,23 +5,30 @@
 
 Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
 
-## Predict Global Crises
+## Problem Statement: Predict Global Crises
 
-Forecasting crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the same impact on the economic and financial states of a country than wars, invasions, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
+Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the same impact on the economic and financial states and fortunes of countries than wars, invasions, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
 History functions as a series of unfolding events, with highly contingent branching paths sometimes separated by mere
 happenstance.Tectonic shifts can hinge on seemingly mundane occurrences.at makes it hard to deduce future events from
 theoretical principles or to induce them from past experience...seasoned political experts had trouble outperforming “dart-tossing chimpanzees”—random guesses...when it came to predicting global events experts fared even worse against amateur news junkies.
 
-Forecasting is an essential activity in many key areas like climate studies and economics and finance. Our inability to forecast political conflict and societal violence makes the world a more dangerous place.
+From "[The perils of policy by p-value: Predicting civil conflicts](https://journals.sagepub.com/doi/10.1177/0022343309356491)" by Ward, Greenhill, and Bakke, a very influential paper in conflict studies:
+>Large-n studies of conflict have produced a large number of statistically significant results but little accurate guidance in terms of anticipating the onset of conflict. The authors argue that too much attention has been paid to finding statistically significant relationships, while too little attention has been paid to finding variables that improve our ability to predict civil wars.
+>...
+>The results provide a clear demonstration of how potentially misleading the traditional focus on statistical significance can be. Until out-of-sample heuristics — especially including predictions — are part of the normal evaluative tools in conflict research, we are unlikely to make sufficient theoretical progress beyond broad statements that point to GDP per capita and population as the major causal factors accounting for civil war onset
+
+The rationalist approach to predicting crises assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven, entities existing in a moral environment in addition to a physical environment. The assumptions of uniform natural properties and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not hold for human beings and societies and countries. 
+
+That does not imply a lack of causality in human actions or the futility of trying to predict human- and state-initiated actions and crises -- humans are  rational actors even if our reasons for acting are deeply buried in our psyche and undetectable to external observers and self-reflection. What it does mean is that we need to use new methods, of collecting observations of political *events* at a large-scale *population level*, of modelling those events in an appropriate way, and of using heuristics and *algorithms* to continuously make granular predictions about events and incorporate feedback about the quality of these predictions that can allow these algorithms to iteratively learn the hidden parameters in raw event data that can form more effective prediction models.   
+
+Our inability to use better methods to forecast political conflict and societal violence makes the world a more dangerous place.
 
 ![pol](https://dm2301files.storage.live.com/y4mOpcp6TX-t4AoBoXYnCDUIhHJcuGJm8JpJBf1TU8XrwnvFi2Ds-CfJvBmo_O1kPwVptYc9IQBiBM_VRDxkZTFSqRMz1fP5C0NGCocyc3H_qnC_LTiwhxyuAQejoG3lphg6tlYZ0l2lmNqVQicXA7fg8kVXnBvat2tQP7zUhl4NH6B7KPI9EK6Ctq7-sfVyXcG?width=2000&height=1600&cropmode=none)
 *Can events like these be predicted?*
 
-The rationalist approach to predicting crises assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. 
-
-Computational methods for data-driven forecasting using *algorithms* can be better than traditional statistical models with static parameters e.g. [Phil Schrodt](https://www.benjaminbagozzi.com/uploads/1/2/5/7/12579534/data-based-computational-approahes-to-forecasting-political-violence.pdf)
+Computational methods for data-driven forecasting using algorithms can be better than traditional statistical models with static parameters e.g. [Phil Schrodt](https://www.benjaminbagozzi.com/uploads/1/2/5/7/12579534/data-based-computational-approahes-to-forecasting-political-violence.pdf)
 >Although more traditional “statistical” models still dominate quantitative studies
 of political conflict, “algorithmic” approaches have proven effective, thus gaining
 momentum not just within political science [21, 139] but also in other disciplines...
@@ -40,30 +47,22 @@ statistical models at handling ‘big data’ data sets with large numbers of in
 * "Algorithms are also less dependent on rigid assumptions about the data generating
 process and underlying distributions." 
 
-* "As opposed to some statistical models,
-many machine learning algorithms were specifically designed to generate accurate
+* "As opposed to some statistical models, many machine learning algorithms were specifically designed to generate accurate
 predictions, and do this exceedingly well." 
 
+* "A number of the algorithmic approaches approximate the widely used qualitative method “case-based reasoning” which match patterns of events from past cases to the events observed in a current situation, and then use the best historical fit to predict the likely outcome
+of the current situation...This similarity to the methods of human analysts accounted for these methods originally being labeled “artificial intelligence” in some of the early studies."
 
-* "A number of the algorithmic approaches approximate the widely used qualitative method “case-based reasoning” which match patterns of events from past cases to the events observed
-in a current situation, and then use the best historical fit to predict the likely outcome
-of the current situation...This similarity to the methods of human analysts accounted for
-these methods originally being labeled “artificial intelligence” in some of the early
-studies."
+* "Major trends in the empirical study of political violence, such as the ‘big data’ revolution and an increasing interest in predictive models, mean that
+algorithmic approaches will likely become increasingly popular in the coming years."
 
-* "Major trends in the empirical study of political violence, such as the
-‘big data’ revolution and an increasing interest in predictive models, mean that
-algorithmic approaches will likely become increasingly popular in the coming
-years."
+* "As with many of the algorithmic applications, *network models* have only become feasible in the last decade of so, as they require very substantial amounts of data and computational capacity. Consequently the number of applications at present is relatively small, though these are very active research areas."
 
-* "As with many of the algorithmic applications, network models have only become feasible in the last decade of so, as they require very substantial amounts of data and computational capacity. Consequently the number of applications at present is relatively small, though these
-are very active research areas."
-
-There are very few (possibly none) freely-available solutions for effectively using graph-based models and algorithmic approaches to conflict forecasting like graph deep learning on the massive amount of [automatically coded spatio-temporal political event data](http://data.gdeltproject.org/documentation/ISA.2013.GDELT.pdf)  from projects like [GDELT](https://www.gdeltproject.org/). There are many methods for [political event forecasting using deep-learning](https://arxiv.org/abs/2112.06345) and many open-source libraries available for doing deep learing including [graph deep learning](https://www.dgl.ai/), and the more data ML models are fed they better they perform. But ressearchers are not database experts and working with the large [tabular denormalized datasets](https://www.gdeltproject.org/data.html#rawdatafiles) GDELT provides  is a daunting task. Even using the massive resources of [Google BigQuery](https://blog.gdeltproject.org/a-compilation-of-gdelt-bigquery-demos/), SQL queries for getting normalized GDELT data in a node-edge format suitable for graph analysis are complex, requiring multiple joins and subqueries and very costly and slow to run. Just getting data into a CSV file for network analysis and visualization can be very difficult as the raw GDELT is split among thousands of files updated very 15mins and Google caps how much data an ordinary user can export to CSV out of BigQuery.
+There are very few (possibly none) freely-available solutions for effectively using network models and algorithmic approaches to conflict forecasting like graph deep learning on the massive amount of [automatically coded spatio-temporal political event data](http://data.gdeltproject.org/documentation/ISA.2013.GDELT.pdf)  from projects like [GDELT](https://www.gdeltproject.org/). There are many methods for [political event forecasting using deep-learning](https://arxiv.org/abs/2112.06345) and many open-source libraries available for doing deep learing including [graph deep learning](https://www.dgl.ai/), and the more data ML models are fed they better they perform. But researchers are not database experts and working with the large [tabular denormalized datasets](https://www.gdeltproject.org/data.html#rawdatafiles) GDELT provides is a daunting task. Even using the massive resources of [Google BigQuery](https://blog.gdeltproject.org/a-compilation-of-gdelt-bigquery-demos/), SQL queries for getting normalized GDELT data in a node-edge format suitable for graph analysis are complex, requiring multiple joins and subqueries, and very costly and slow to run. Just getting data into a CSV file for network analysis and visualization can bedifficult as the raw GDELT is split among thousands of files updated very 15mins and Google caps how much data an ordinary user can export to CSV out of BigQuery.
 
 ## Description
 
-**osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based methods and models and visualization.**
+**osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based queries and  methods and models and visualization powered by scalable graph databases.**
 
 Conflict in societies can be naturally modelled as graphs and networks e.g consider the graph diagram below 
 ![g](https://dm2301files.storage.live.com/y4m02Z0glxGHexjaEhMCGi825lIRrO_7YaKKWf9smTq6AoR_wCGOJjcfxUcP4h-HjEuVL3WjqOZCPFEQsKa-IUKjZlQDc1L-ysQI_LcmWQZrwtjEsEvHGEHA9C-m3Kqs0aaz_UJdBnJ0UuI2vTMpEIofQOCwT1KeZALS8CVj_nE6W-uG2u08V2l0QhUxHVOn9zx?width=1986&height=901&cropmode=none)
@@ -80,6 +79,8 @@ Directed edges connect actors with events with each event being connected to a d
 
 This global event data may be harvested from the massive amount of news stories published and available online each day where a *story* will *mention* a particular event on a particular date together with the actors involved. A schema in TigerGraph for this model of events and news would look like
 ![gdelt_event_schema](https://dm2301files.storage.live.com/y4mEJMfRYpOgh_8PPTHp-k45OLbUuXThve4zBdAg-FZ7cR8JjtxaahKI-l0n8dSXoPKQA1QOvaIOW5YOpkA2mMuE1VCkQlIDyCjmoEaJHgy3Uxfpq_ZLOB5SBw88JfjT8zq2K-IwXbkfmIl7fHPMpVahvTG1ASLOPf3UGKo4gDH6HS6O7RlaYptEPu3gMhp2Jjw?width=1535&height=705&cropmode=none)
+
+Humans have been trying to figure out what causes conflict in our societies for millenia and this will only continue for millenia more. But one thing that has become clear is that we do not need a full theoretical treatment of any phenomena in order to make predictions. Using vast amounts of data and computing power, machines can discover and learn parameters from existing correlations and repeatedlthat allow them to predict sequences of events with surprising accuracy in a way that appears to emulate intelligence and understanding.
 
 osiris is designed to allow researchers and workers in technical conflict forecasting to easily and effectively use statistical and algorithmic methods like graph deep learning on the massive amounts of automatically extracted and coded spatio-temporal political event data from the  [GDELT](https://www.gdeltproject.org/) large-scale event dataset. osiris tries to solve all the common problems of working with the enormous amounts of  GDELT data, from extracting the existing denormalized tabular data from Google BigQuery or the GDELT file server, transforming it into a node-vertex schema and loading it into the graph database, to executing queries against graph data, and visualizing large graph datasets using Graphistry GPU-accelerated graph visualization.
 
