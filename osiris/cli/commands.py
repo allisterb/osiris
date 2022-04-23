@@ -13,11 +13,8 @@ def parse(ctx, debug):
     ctx.ensure_object(dict)
     ctx.obj['DEBUG'] = debug
 
-@parse.group('import', help  = 'Bulk import data from data sources.')
+@parse.group('import', help  = 'Import data from data sources.')
 def data_import(): pass
-
-@parse.group(help  = 'Start a daemon process to monitor data sources and upload data to graph server.')
-def monitor(): pass
 
 @parse.group('graph', help  = 'Run commands and queries on a graph server.')
 @click.argument('url')
@@ -42,10 +39,9 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
     from graph_server.tigergraph import GraphServer
     core.graph_server.i = GraphServer(url, graph_name, user, passwd, token)
     if core.graph_server.i.token is not None:
-        info(f'Using token {core.graph_server.i.token[:2]}xxx for graph server {url}...')
+        info(f'Using token xxx{core.graph_server.i.token[:2]} for graph server {url}...')
     if core.graph_server.user is not None and core.graph_server.passwd is not None:
-        info(f'Using user {user} and password {core.graph_server.i.passwd[:2]}xxx for graph server {url}...')
+        info(f'Using user {user} and password xxx{core.graph_server.i.passwd[:2]} for graph server {url}...')
 
 import cli.import_commands
-import cli.monitor_commands
 import cli.graph_server_commands

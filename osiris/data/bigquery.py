@@ -1,7 +1,8 @@
 from logging import info, error, debug
-
-import pandas as pd           
+         
 from google.cloud import bigquery
+
+from bq_iterate.src.bq_iterate.core import BqTableRowsIterator, BqQueryRowsIterator, bq_iterator
 
 from base.timer import begin
 from core.datasource import DataSource
@@ -16,24 +17,23 @@ class DataSource(DataSource):
     def get_info(self):
         pass
     
-    def import_data_table(self, bq_table, limit=None, page_size=1000):
-        with begin(f'Retrieving row iterator from BigQuery table {bq_table}') as op:
-            table = bigquery.TableReference.from_string(bq_table)
-            rows = self.bqclient.list_rows(table, max_results=limit)
-            #df = rows.to_dataframe(create_bqstorage_client=True)
+    def import_data_table(self, bqtable, bs):
+        with begin(f'Retrieving rows iterator from BigQuery table {bqtable}') as op:
+            #self.bqclient.list_rows(bqtable).
+            it = bq_iterator(BqTableRowsIterator(self.bqclient, bqtable, bs))
             op.complete()
-            return rows 
+            return it 
 
-    def import_data_query(self, query_text):
-        with begin(f'Retrieving row iterator for BigQuery query') as op:
-            rows = self.bqclient.query(query_text).result()
+    def import_data_query(self, bqquery, bs):
+        with begin(f'Retrieving rows iterator for BigQuery query') as op:
+            it = bq_iterator(BqQueryRowsIterator(self.bqclient, bqquery, bs))
             op.complete()
-            return rows
+            return it
 
     def import_data(self, query_type, *args):
         if query_type == 'table':
             return self.import_data_table(args[0], args[1])
         elif query_type == 'query':
-            return self.import_data_query(args[0])
+            return self.import_data_query(args[0], args[1])
         else:
             raise "Unsupported BigQuery import type."
