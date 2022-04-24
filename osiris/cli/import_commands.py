@@ -41,9 +41,14 @@ def import_bigquery(google_app_creds, kind, bs, maxrows, test, bq_arg, filename)
       if test:
          info(f'Test mode for import enabled.')
          df:pd.DataFrame = next(imported_data)
-         df.to_csv()
          print(df)
+         data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
+         info(f'Size of CSV data batch is {len(data_bytes)} bytes.')
+         with open(filename, "wb") as f:
+            f.write(data_bytes)
       else:
-         for df in imported_data:
-            print(df)
+         for i, df in enumerate(imported_data):
+            prefix = '' if i == 0 else str(i + 1) + '_'
+            info(f'Writing data batch to {prefix + filename}...')
+            df.to_csv(prefix + filename, index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC)
       op.complete()
