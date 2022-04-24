@@ -52,7 +52,7 @@ select distinct
     NumArticles,
     AvgTone,
     ActionGeo_Type as Geo_Type, 
-    replace(ActionGeo_FullName, ',', ' ') as Geo_FullName, 
+    replace(ActionGeo_FullName, ',', ';') as Geo_FullName, 
     ActionGeo_CountryCode as Geo_CountryCode, 
     nullif(trim(concat(ifnull(ActionGeo_ADM1Code, ''), ' ', ifnull(ActionGeo_ADM2Code, ''))), '') as Geo_ADMCode,
     ActionGeo_Lat as Geo_Lat,

@@ -1,9 +1,9 @@
 select 
-    MentionIdentifier, 
-    GLOBALEVENTID, 
+    replace(MentionIdentifier, ',', '%2C') as ID, 
+    GLOBALEVENTID as EventID, 
     cast(parse_datetime('%Y%m%d%H%M%S', cast(MentionTimeDate as string)) as Date) as MentionDate,
     MentionType, 
-    MentionSourceName, 
+    replace(MentionSourceName, ',', ';') as Source, 
     Confidence, 
     MentionDocTone 
 from `gdelt-bq.gdeltv2.eventmentions` 
