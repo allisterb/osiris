@@ -14,3 +14,7 @@ class DataSource(abc.ABC):
     @abc.abstractmethod
     def import_data(*args):
         """Import data from data source using the parameters specified"""
+
+    @abc.abstractmethod
+    def test_import_data(*args):
+        """Test importing data from data source using the parameters specified"""

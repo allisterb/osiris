@@ -1,14 +1,14 @@
-from logging import info, error, debug
+import csv
+from logging import info, debug
          
 from google.cloud import bigquery
 from google.cloud.bigquery.table import RowIterator
 from google.cloud.bigquery_storage import BigQueryReadClient
 import pandas as pd
-
+from rich import print
 
 from bq_iterate.src.bq_iterate.core import BqTableRowsIterator, BqQueryRowsIterator, bq_iterator
 
-from base.timer import begin
 from core.datasource import DataSource
 
 class DataSource(DataSource):
@@ -51,5 +51,11 @@ class DataSource(DataSource):
             yield df
             if max_rows is not None and total_rows >= max_rows:
                 break
-
-
+    
+    def test_import_data(self, query_type, *args):
+        imported_data:iter["pd.DataFrame"] = self.import_data(query_type, args)
+        info(f'Test mode for import enabled.')
+        df:pd.DataFrame = next(imported_data)
+        print(df)
+        data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
+        info(f'Size of CSV data batch is {len(data_bytes)} bytes.')

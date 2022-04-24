@@ -10,13 +10,12 @@ from base.timer import begin
 from cli.commands import data_import
 from cli.util import *
 
-@data_import.command('gdelt', help='Import data from the GDELT file server into a graph database server.')
+@data_import.command('gdelt', help='Import data from the GDELT file server.')
 @click.argument('table')
 @click.argument('start-date')
 @click.argument('end-date')
 @click.argument('filename', type=click.Path())
-@click.argument('target', default='csv')
-def import_gdelt(table, start_date, end_date, filename, target):
+def import_gdelt(table, start_date, end_date, filename):
    from data.gdelt import DataSource
    gdelt = DataSource()
    df:pd.DataFrame = gdelt.import_data(table, start_date, end_date)
@@ -24,7 +23,7 @@ def import_gdelt(table, start_date, end_date, filename, target):
       df.to_csv(filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
       op.complete()
 
-@data_import.command('bigquery', help='Import GDELT data from a Google BigQuery table into a graph database server.')
+@data_import.command('bigquery', help='Import data from a Google BigQuery table.')
 @click.option('--google-app-creds', required=True, envvar="GOOGLE_APPLICATION_CREDENTIALS")
 @click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
 @click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
@@ -37,16 +36,10 @@ def import_bigquery(google_app_creds, kind, bs, maxrows, test, bq_arg, filename)
    from data import bigquery
    bigquery = bigquery.DataSource()
    with begin(f'Importing data from BigQuery {kind} {bq_arg} to {filename}') as op:
-      imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
       if test:
-         info(f'Test mode for import enabled.')
-         df:pd.DataFrame = next(imported_data)
-         print(df)
-         data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
-         info(f'Size of CSV data batch is {len(data_bytes)} bytes.')
-         with open(filename, "wb") as f:
-            f.write(data_bytes)
+         bigquery.test_import_data(kind, bq_arg, bs, maxrows)
       else:
+         imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
          for i, df in enumerate(imported_data):
             prefix = '' if i == 0 else str(i + 1) + '_'
             info(f'Writing data batch to {prefix + filename}...')
