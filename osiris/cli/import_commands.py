@@ -28,32 +28,15 @@ def import_gdelt(table, start_date, end_date, filename, target):
 @click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
 @click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
 @click.option('--bs', type=int, default=1000, help='The batch-size to use when retrieving data from the table.')
-@click.option('--limit', type=int, default=None)
+@click.option('--maxrows', type=int, default=None)
 @click.argument('bq-arg')
 @click.argument('filename', type=click.Path())
-def import_bigquery(google_app_creds, kind, bs, limit, bq_arg, filename):
+def import_bigquery(google_app_creds, kind, bs, maxrows, bq_arg, filename):
    from data import bigquery
    bigquery = bigquery.DataSource()
-   rows_iter = bigquery.import_data(kind, bq_arg, bs)
-   with begin(f'Writing data to CSV file {filename}') as op:
-      batch_count = 0
-      total_rows = 0
-      for rows in rows_iter:
-         with begin(f'Fetching batch {batch_count + 1} of {bs} rows from BigQuery') as bop:
-            df:pd.DataFrame = rows.to_dataframe()
-            batch_count = batch_count + 1
-            total_rows = total_rows + rows.num_results
-            info(f'Number of rows in batch {batch_count}: {rows.num_results}.')
-            print(df.info())
-            info(f'Total rows: {total_rows}')
-            batch_count = batch_count + 1
-            bop.complete()
-         if total_rows >= limit:
-            break
+   with begin(f'Importing data from BigQuery {kind} {bq_arg} to {filename}') as op:
+      dfs = bigquery.import_data(kind, bq_arg, bs, maxrows)
+      for df in dfs:
+         print(df)
       op.complete()
-
-  # with begin(f'Writing data to CSV file {filename}') as op:
-
-      #df.iloc[5000:10000].to_csv('2' + filename, index=False, quoting=csv.QUOTE_NONNUMERIC)
-      #op.complete()
 
