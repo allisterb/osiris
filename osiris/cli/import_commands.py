@@ -1,4 +1,5 @@
 import csv
+from email.policy import default
 from logging import info, error
 
 import pandas as pd
@@ -24,19 +25,25 @@ def import_gdelt(table, start_date, end_date, filename, target):
       op.complete()
 
 @data_import.command('bigquery', help='Import GDELT data from a Google BigQuery table into a graph database server.')
-@click.option('--google-app-creds', envvar="GOOGLE_APPLICATION_CREDENTIALS")
+@click.option('--google-app-creds', required=True, envvar="GOOGLE_APPLICATION_CREDENTIALS")
 @click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
 @click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
 @click.option('--bs', type=int, default=1000, help='The batch-size to use when retrieving data from the table.')
 @click.option('--maxrows', type=int, default=None)
+@click.option('--test', is_flag=True, default=False, help='Only get the first batch of results and print information on them.')
 @click.argument('bq-arg')
 @click.argument('filename', type=click.Path())
-def import_bigquery(google_app_creds, kind, bs, maxrows, bq_arg, filename):
+def import_bigquery(google_app_creds, kind, bs, maxrows, test, bq_arg, filename):
    from data import bigquery
    bigquery = bigquery.DataSource()
    with begin(f'Importing data from BigQuery {kind} {bq_arg} to {filename}') as op:
-      dfs = bigquery.import_data(kind, bq_arg, bs, maxrows)
-      for df in dfs:
+      imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
+      if test:
+         info(f'Test mode for import enabled.')
+         df:pd.DataFrame = next(imported_data)
+         df.to_csv()
          print(df)
+      else:
+         for df in imported_data:
+            print(df)
       op.complete()
-

@@ -15,17 +15,25 @@ INTERACTIVE_NOTEBOOK = False
 
 DAEMON = False
 
-def set_log_level(debug):
-        global DEBUG
+SCRIPT = False
+
+def set_runtime_env(debug, interactive_nb):
+        global DEBUG, INTERACTIVE_CLI, INTERACTIVE_NOTEBOOK, DAEMON, SCRIPT
         import logging
         logging.root.handlers.clear()
-        DEBUG = True
         if debug:
+            DEBUG = True
             logging.basicConfig(format='%(message)s', datefmt='%I:%M:%S %p', stream=sys.stdout, level=logging.DEBUG)
             os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'  # or any {'0', '1', '2'}  to control TensorFlow 2 logging level
         else:
+            DEBUG = False
             logging.basicConfig(format='%(message)s', datefmt='%I:%M:%S %p', stream=sys.stdout, level=logging.INFO)
             os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}  to control TensorFlow 2 logging level
+        if interactive_nb:
+            INTERACTIVE_NOTEBOOK = True
+            INTERACTIVE_CLI = False
+            DAEMON = False
+            SCRIPT = False
 
 def kb_capture_thread():
     """Capture keyboard input"""

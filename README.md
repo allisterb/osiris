@@ -5,28 +5,46 @@
 
 Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
 
-## Problem Statement: Predict Global Crises
+# Graph For a Better X
 
-Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the same impact on the economic and financial states and fortunes of countries than wars, invasions, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
+## Problem Statement: Predict Global Crises and Conflict
+
+Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the same impact on the economic stability and fortunes of countries like invasions, civil war, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
 History functions as a series of unfolding events, with highly contingent branching paths sometimes separated by mere
 happenstance.Tectonic shifts can hinge on seemingly mundane occurrences.at makes it hard to deduce future events from
 theoretical principles or to induce them from past experience...seasoned political experts had trouble outperforming “dart-tossing chimpanzees”—random guesses...when it came to predicting global events experts fared even worse against amateur news junkies.
 
-From "[The perils of policy by p-value: Predicting civil conflicts](https://journals.sagepub.com/doi/10.1177/0022343309356491)" by Ward, Greenhill, and Bakke, a very influential paper in conflict studies:
+From "[The perils of policy by p-value: Predicting civil conflicts](https://journals.sagepub.com/doi/10.1177/0022343309356491)" by Ward, Greenhill, and Bakke:
 >Large-n studies of conflict have produced a large number of statistically significant results but little accurate guidance in terms of anticipating the onset of conflict. The authors argue that too much attention has been paid to finding statistically significant relationships, while too little attention has been paid to finding variables that improve our ability to predict civil wars.
 >...
 >The results provide a clear demonstration of how potentially misleading the traditional focus on statistical significance can be. Until out-of-sample heuristics — especially including predictions — are part of the normal evaluative tools in conflict research, we are unlikely to make sufficient theoretical progress beyond broad statements that point to GDP per capita and population as the major causal factors accounting for civil war onset
 
-The rationalist approach to predicting crises assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven, entities existing in a moral environment in addition to a physical environment. The assumptions of uniform natural properties and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not hold for human beings and societies and countries. 
+The rationalist approach to predicting crises and conflicts assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. 
 
-That does not imply a lack of causality in human actions or the futility of trying to predict human- and state-initiated actions and crises -- humans are  rational actors even if our reasons for acting are deeply buried in our psyche and undetectable to external observers and self-reflection. What it does mean is that we need to use new methods, of collecting observations of political *events* at a large-scale *population level*, of modelling those events in an appropriate way, and of using heuristics and *algorithms* to continuously make granular predictions about events and incorporate feedback about the quality of these predictions that can allow these algorithms to iteratively learn the hidden parameters in raw event data that can form more effective prediction models.   
+Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies and is becoming more important even in highly theoretical disciplines like physics. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven, entities existing in a moral environment in addition to a physical environment. The assumptions of uniform natural properties and relations laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not hold for human beings and societies and countries.
 
-Our inability to use better methods to forecast political conflict and societal violence makes the world a more dangerous place.
+Our inability to use better methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective policy and makes the world a more dangerous place.
 
 ![pol](https://dm2301files.storage.live.com/y4mOpcp6TX-t4AoBoXYnCDUIhHJcuGJm8JpJBf1TU8XrwnvFi2Ds-CfJvBmo_O1kPwVptYc9IQBiBM_VRDxkZTFSqRMz1fP5C0NGCocyc3H_qnC_LTiwhxyuAQejoG3lphg6tlYZ0l2lmNqVQicXA7fg8kVXnBvat2tQP7zUhl4NH6B7KPI9EK6Ctq7-sfVyXcG?width=2000&height=1600&cropmode=none)
-*Can events like these be predicted?*
+*How can events like these be predicted?*
+
+The ineffectiveness of existing qualitative and quantitative methods for predicting human- and state-initiated actions and crises and conflict does not imply a lack of causality or *patterns* in human actions or the futility of trying to predict  -- humans are  rational actors even if our reasons for acting are deeply buried in our psyche and undetectable to external observers and self-reflection. 
+
+Conflict between human actors and states can be naturally modelled as graphs and networks e.g consider the graph diagram below (click on the image if its too small)
+![g](https://dm2301files.storage.live.com/y4m02Z0glxGHexjaEhMCGi825lIRrO_7YaKKWf9smTq6AoR_wCGOJjcfxUcP4h-HjEuVL3WjqOZCPFEQsKa-IUKjZlQDc1L-ysQI_LcmWQZrwtjEsEvHGEHA9C-m3Kqs0aaz_UJdBnJ0UuI2vTMpEIofQOCwT1KeZALS8CVj_nE6W-uG2u08V2l0QhUxHVOn9zx?width=1986&height=901&cropmode=none)
+
+The diagram captures a tiny part of the conflict that erupted in the U.S. in the summer of 2020 during the presidency of Donald J. Trump. Organizations and movements like BLM and Antifa staged violent protests over the police killing of George Floyd  in response to which President Trump criticized these organizations and ordered further mobilization of police and other security forces.
+
+The larger vertices outlined in orange represent *events* while the smaller vertices represent *actors*. Each event has spatio-temporal attributes and is [coded](https://en.wikipedia.org/wiki/Conflict_and_Mediation_Event_Observations) using a standard classification like `1823 KILL BY PHYSICAL ASSAULT` or `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS`,
+Directed edges connect actors with events with each event being connected to a dyad or pair of actors where one actor is the *source* of the event action and the other the *target*. Using this model we observe:
+
+* Actors initiate and receive event actions and events connect to other events only through actor vertices.
+* If an event A is possible cause of B then A must happen before B and a path must exist from B to A passing only through event vertices that also precede B.
+* A sequence or chain of events leading to a violent event may show increasing levels of intensity e.g `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS` -> `153 MOBILIZE OR INCREASE POLICE POWER` -> `1823 KILL BY PHYSICAL ASSAULT`. The event coding can reflect this increase numerically with codes with a higher starting triple representing escalation.
+
+ To effectively model and predict conflict we need to use new methods, of collecting observations of political *events* at a large-scale *population level*, of modelling those events in an appropriate way, and of using heuristics and *algorithms* to continuously make granular predictions about events and incorporate feedback about the quality of these predictions that can allow these algorithms to *iteratively* learn the hidden parameters in raw event data, that can create effective prediction models.   
 
 Computational methods for data-driven forecasting using algorithms can be better than traditional statistical models with static parameters e.g. [Phil Schrodt](https://www.benjaminbagozzi.com/uploads/1/2/5/7/12579534/data-based-computational-approahes-to-forecasting-political-violence.pdf)
 >Although more traditional “statistical” models still dominate quantitative studies
@@ -64,17 +82,7 @@ There are very few (possibly none) freely-available solutions for effectively us
 
 **osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based queries and  methods and models and visualization powered by scalable graph databases.**
 
-Conflict in societies can be naturally modelled as graphs and networks e.g consider the graph diagram below 
-![g](https://dm2301files.storage.live.com/y4m02Z0glxGHexjaEhMCGi825lIRrO_7YaKKWf9smTq6AoR_wCGOJjcfxUcP4h-HjEuVL3WjqOZCPFEQsKa-IUKjZlQDc1L-ysQI_LcmWQZrwtjEsEvHGEHA9C-m3Kqs0aaz_UJdBnJ0UuI2vTMpEIofQOCwT1KeZALS8CVj_nE6W-uG2u08V2l0QhUxHVOn9zx?width=1986&height=901&cropmode=none)
 
-The diagram captures a tiny part of the conflict that erupted in the U.S. in the summer of 2020 during the presidency of Donald J. Trump. Organizations and movements like BLM and Antifa staged violent protests over the police killing of George Floyd  in response to which President Trump criticized these organizations and ordered further mobilization of police and other security forces.
-
-The larger vertices outlined in orange represent *events* while the smaller vertices represent *actors*. Each event has spatio-temporal attributes and is [coded](https://en.wikipedia.org/wiki/Conflict_and_Mediation_Event_Observations) using a standard classification like `1823 KILL BY PHYSICAL ASSAULT` or `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS`,
-Directed edges connect actors with events with each event being connected to a dyad or pair of actors where one actor is the *source* of the event action and the other the *target*. Using this model we observe:
-
-* Actors initiate and receive event actions and events connect to other events only through actor vertices.
-* If an event A is possible cause of B then A must happen before B and a path must exist from B to A passing only through event vertices that also precede B.
-* A sequence or chain of events leading to a violent event may show increasing levels of intensity e.g `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS` -> `153 MOBILIZE OR INCREASE POLICE POWER` -> `1823 KILL BY PHYSICAL ASSAULT`. The event coding reflects this increase numerically.
 * A typical news day globally would comprise a network of tens of thousands of event vertices and edges like these.
 
 This global event data may be harvested from the massive amount of news stories published and available online each day where a *story* will *mention* a particular event on a particular date together with the actors involved. A schema in TigerGraph for this model of events and news would look like
