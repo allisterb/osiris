@@ -1,5 +1,7 @@
 import abc
-from tkinter.messagebox import NO
+from logging import info
+
+from base.timer import begin
 
 target = None
 url = None
@@ -44,6 +46,15 @@ class GraphServer(abc.ABC):
     @abc.abstractmethod
     def load(self, job_name, file_tag, data:bytes, *args):
         """Bulk load data to the graph_server."""
+
+    def load_file(self, job_name, file_tag, file_path):
+        with begin(f'Executing loading job {job_name} with file {file_path}') as op:
+            with open(file_path, 'rb') as f:
+                data = f.read()
+                info(f'{file_path} is {len(data)} bytes.')
+                r = self.load(job_name, file_tag, data)
+                op.complete()
+                return r
 
 # Instance of a GraphServer.
 i: GraphServer = None
