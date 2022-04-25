@@ -8,7 +8,7 @@ Information below is for my entry into the [TigerGraph Graph for All hackathon](
 
 ## Problem Statement: Predict Global Crises
 
-Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the impact on the economic stability and fortunes of countries like invasions, civil war, insurgencies, civil unrest, global and domestic terrorism, and so on. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
+Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the impact on the economic stability and fortunes of countries like invasions, civil war, insurgencies, civil unrest, global and domestic terrorism, and so on, and these crises often result in a complex set of further economic damage due to things like international sanctions, and knock-on crises in other counties like shortages of raw materials. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
 History functions as a series of unfolding events, with highly contingent branching paths sometimes separated by mere
@@ -22,9 +22,13 @@ From "[The perils of policy by p-value: Predicting civil conflicts](https://jour
 
 The rationalist approach to predicting crises and conflicts assumes there are theoretical models and casual structures we can discover using our reason that reveal the hidden order in global events. The empiricist approach does not make this assumption and seeks to make sense of the world and make predictions by finding patterns in observations and data. 
 
-Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven entities, existing in a moral environment in addition to a physical environment. The assumptions of uniform natural properties and relations and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not hold for human beings and societies and countries.
+Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies and models for things like famine forecasting and mortgage repayment have been shown to be accurate. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven entities, existing in a moral environment in addition to a physical and economic environment. The assumptions of uniform natural properties and relations and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not always hold for the actions of human beings and societies and countries in conflict. 
 
-Our inability to use better methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective policy and makes the world a more dangerous place.
+Even if we can use inductive and frequentist reasoning to predict human conflicts and crises, the nature of societies as *open, complex systems* may make prediction of crises intractable *unless we use the right models and data and methods.* 
+![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=1696&height=1238&cropmode=none)
+<sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> by Phillip A. Schrodt 2013.</sub>
+
+Our inability to use better models and methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective policy and makes the world a more dangerous place.
 
 ![pol](https://dm2301files.storage.live.com/y4mOpcp6TX-t4AoBoXYnCDUIhHJcuGJm8JpJBf1TU8XrwnvFi2Ds-CfJvBmo_O1kPwVptYc9IQBiBM_VRDxkZTFSqRMz1fP5C0NGCocyc3H_qnC_LTiwhxyuAQejoG3lphg6tlYZ0l2lmNqVQicXA7fg8kVXnBvat2tQP7zUhl4NH6B7KPI9EK6Ctq7-sfVyXcG?width=2000&height=1600&cropmode=none)
 *How can events like these be predicted?*
@@ -102,12 +106,13 @@ osiris is designed to allow researchers and workers in technical conflict foreca
 
 ## Installation
 ### CLI and Jupyter
-1. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
-2. Run the install scripts: `install` on Windows or `install.sh` on Linux/macOS. This will install all the Python dependencies.
-3. Run `osi --help` or `osi.sh --help` to see the list of osiris CLI commands.
-4. Run `set_gsql_auth_env[.sh] mytguser mytgpass` with the GSQL user and pass to your TigerGraph server instance.
-5. If you need to create a secret for the REST++ API of your server you can say `osi[.sh] graph mytgserverurl mytgdb create-secret mysecret` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events create-secret s2` assuming your GSQL user has the right permissions.
-6. If you need to get a token for the REST++ API of your server you can say `osi[.sh] graph mytgserverurl mytgdb get-token` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events get-token` This command looks for the API secret needed in the  `OSIRIS_GRAPH_SERVER_SECRET` env var.
+1. Create a Python venv e.g `python -m venv osiris` and activate it.
+2. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
+2. Run the install scripts: `install` on Windows or `./install` on Linux/macOS. This will install all the Python dependencies.
+3. Run `osi --help` or `./osi --help` to see the list of osiris CLI commands.
+4. Run `set_gsql_auth_env mytguser mytgpass` with the GSQL user and pass to your TigerGraph server instance.
+5. If you need to create a secret for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb create-secret mysecret` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events create-secret s2` assuming your GSQL user has the right permissions.
+6. If you need to get a token for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb get-token` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events get-token` This command looks for the API secret needed in the  `OSIRIS_GRAPH_SERVER_SECRET` env var.
 7. Run `set_restpp_auth_env[.sh] mytgtoken` with the REST++ API token for your TigerGraph server instance.
 8. If your GSQL and REST++ auth env variables are set you can do `osi[.sh] graph mytgserver mytgdb ping` to check connectivity to your graph server e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events ping`. 
 
