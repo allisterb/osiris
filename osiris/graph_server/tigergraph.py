@@ -1,3 +1,5 @@
+from time import sleep
+from turtle import position
 from base.timer import begin
 
 import pyTigerGraph as tg
@@ -45,8 +47,14 @@ class GraphServer(GraphServer):
             op.complete()
             return r
 
-    def load(self, job_name, file_tag, file_path):
+    def load_file(self, job_name, file_tag, file_path):
+        params = {
+            "tag": job_name,
+            "filename": file_tag,
+        }
         with begin(f'Executing loading job {job_name} with file {file_path}') as op:
+            #self._post(self.restppUrl + "/ddl/" + self.graphname, params=params, data=data,
+            #              headers={"RESPONSE-LIMIT": str(sizeLimit), "GSQL-TIMEOUT": str(timeout)})
             r = self.conn.uploadFile(jobName=job_name, filePath=file_path, fileTag=file_tag)
             op.complete()
             return r

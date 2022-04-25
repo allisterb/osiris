@@ -37,6 +37,12 @@ def import_bigquery(google_app_creds, kind, bs, maxrows, test, bq_arg, filename)
    bigquery = bigquery.DataSource()
    with begin(f'Importing data from BigQuery {kind} {bq_arg} to {filename}') as op:
       if test:
+         from tqdm.auto import trange
+         from time import sleep
+         for i in trange(5, desc='1st loop', position=0):
+            for j in trange(100, desc='2nd loop', position=1, leave=False):
+                sleep(0.01)
+         return
          bigquery.test_import_data(kind, bq_arg, bs, maxrows)
       else:
          imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)

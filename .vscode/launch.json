@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "osiris/main.py",
-            "args": ["--debug", "import", "bigquery", "osiris-347701.gdelt_snapshots.events_actions_20220000_20220421", "1000"],
+            "args": ["import", "bigquery", "osiris-347701.gdelt_snapshots.events_actions_20220000_20220421", "--bs", "1000", "foo.csv", "--test" ],
             "env": {"GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Allister\\Downloads\\osiris-b347701-a6ec1fe52d3b.json"},
             "console": "integratedTerminal",
             "justMyCode": false

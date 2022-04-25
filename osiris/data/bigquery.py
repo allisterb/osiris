@@ -3,7 +3,10 @@ from logging import info, debug
          
 from google.cloud import bigquery
 from google.cloud.bigquery.table import RowIterator
+from google.cloud.bigquery import _tqdm_helpers, _pandas_helpers
 from google.cloud.bigquery_storage import BigQueryReadClient
+from tqdm import tqdm
+import pyarrow
 import pandas as pd
 from rich import print
 
@@ -31,7 +34,7 @@ class DataSource(DataSource):
     def import_data(self, query_type, *args):
         bs = args[1]
         max_rows = args[2]
-        rows_iter:RowIterator = None
+        rows_iter:iter["RowIterator"] = None
         if query_type == 'table':
             rows_iter = self.import_data_table(args[0], bs)
         elif query_type == 'query':
@@ -40,9 +43,10 @@ class DataSource(DataSource):
             raise "Unsupported BigQuery import type."
         batch_count = 0
         total_rows = 0
+        from tqdm import tqdm
         for rows in rows_iter:
             debug(f'Fetching batch {batch_count + 1} of {bs} rows from BigQuery {query_type}...')
-            df:pd.DataFrame = rows.to_dataframe()
+            df:pd.DataFrame = rows.to_dataframe()#self.rows_to_df(rows=rows)
             batch_count = batch_count + 1
             total_rows = total_rows + rows.num_results
             debug(f'Number of rows in batch {batch_count}: {rows.num_results}.')
@@ -53,7 +57,7 @@ class DataSource(DataSource):
                 break
     
     def test_import_data(self, query_type, *args):
-        imported_data:iter["pd.DataFrame"] = self.import_data(query_type, args)
+        imported_data:iter["pd.DataFrame"] = self.import_data(query_type, args[0], args[1], args[2])
         info(f'Test mode for import enabled.')
         df:pd.DataFrame = next(imported_data)
         print(df)
