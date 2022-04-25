@@ -88,7 +88,10 @@ def query_graph(_:click.Context, text, file):
         with open(file, 'r') as f:
             print(graph_server.query(f.read()))
 
-@graph_server_cmd.command('load-file', help = 'Load data into graph server from a local file.')
+@graph_server_cmd.group('load', help  = 'Load data into graph server using a loading job.')
+def load_cmd(): pass
+
+@load_cmd.command('file', help = 'Load data into graph server from a local file.')
 @click.argument('jobname')
 @click.argument('filetag')
 @click.argument('filepath', type=click.Path(exists=True))
@@ -97,7 +100,7 @@ def load_file(_:click.Context, jobname, filetag, filepath):
     from core.graph_server import i as graph_server
     print(graph_server.load_file(jobname, filetag, filepath))
 
-@graph_server_cmd.command('load-bigquery', help = 'Load data into graph server using Google BigQuery.')
+@load_cmd.command('bigquery', help = 'Load data into graph server using Google BigQuery.')
 @click.option('--google-app-creds', required=True, envvar="GOOGLE_APPLICATION_CREDENTIALS")
 @click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
 @click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
@@ -117,10 +120,7 @@ def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jo
             bigquery.test_import_data(kind, bq_arg, bs, maxrows)
         else:
             imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
-        for i, df in enumerate(imported_data):
-            prefix = '' if i == 0 else str(i + 1) + '_'
-            info(f'Writing data batch to {prefix + filename}...')
-            df.to_csv(prefix + filename, index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC)
-      op.complete()
+        #for i, df in enumerate(imported_data):   
+        op.complete()
 
         
