@@ -24,9 +24,14 @@ The rationalist approach to predicting crises and conflicts assumes there are th
 
 Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies and models for things like famine forecasting and mortgage repayment have been shown to be accurate. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven entities, existing in a moral environment in addition to a physical and economic environment. The assumptions of uniform natural properties and relations and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not always hold for the actions of human beings and societies and countries in conflict. 
 
-Even if we can use inductive and frequentist reasoning to predict human conflicts and crises, the nature of societies as *open, complex systems* may make prediction of crises intractable *unless we use the right models and data and methods.* 
+Even if we can use inductive and frequentist reasoning to predict human conflicts and crises, the nature of societies as *open, complex systems* may make prediction of crises intractable *unless we use the right models and methods and data.* 
 ![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=1696&height=1238&cropmode=none)
 <sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> page 22 by Phillip A. Schrodt, 2013.</sub>
+
+New types of data like *open event data* maybe more effective and faster in predicting conflict and crises e.g. Phil Schrodt "[Open Event Data and the Prospects for Near-RealTime Forecasting Models](https://parusanalytics.com/eventdata/presentations.dir/Schrodt.PRIO15.OpenSource.slides.pdf)":
+
+>The combination of fully automated coding and the increasing number of reports on the web means that we now have an inexpensive
+“instrument” for systematically monitoring global political behavior in real time...Structural indicators such as GDP, infant mortality, regime type, past or adjacent conflict change too slowly
 
 Our inability to use better models and methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective economic policy and makes the world a more dangerous place.
 
