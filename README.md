@@ -8,7 +8,7 @@ Information below is for my entry into the [TigerGraph Graph for All hackathon](
 
 ## Problem Statement: Predict Global Crises
 
-Forecasting global crises in general and conflict and violence in particular is essential for policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the impact on the economic stability and fortunes of countries like invasions, civil war, insurgencies, civil unrest, global and domestic terrorism, and so on, and these crises often result in a complex set of further economic damage due to things like international sanctions, and knock-on crises in other countries like supply-chain shortages. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
+Forecasting global crises in general and conflict and violence in particular is essential for economic policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the impact on the economic stability and fortunes of countries like invasions, civil wars, insurgencies, global and domestic terrorism, civil unrest, strikes and blockades and other disruptive actions by essential workers, and so on. These crises often result in a complex set of further economic damage due to things like international sanctions, and knock-on crises in other countries like supply-chain shortages. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
 History functions as a series of unfolding events, with highly contingent branching paths sometimes separated by mere
@@ -28,7 +28,7 @@ Even if we can use inductive and frequentist reasoning to predict human conflict
 ![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=1696&height=1238&cropmode=none)
 <sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> page 22 by Phillip A. Schrodt, 2013.</sub>
 
-Our inability to use better models and methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective policy and makes the world a more dangerous place.
+Our inability to use better models and methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective economic policy and makes the world a more dangerous place.
 
 ![pol](https://dm2301files.storage.live.com/y4mOpcp6TX-t4AoBoXYnCDUIhHJcuGJm8JpJBf1TU8XrwnvFi2Ds-CfJvBmo_O1kPwVptYc9IQBiBM_VRDxkZTFSqRMz1fP5C0NGCocyc3H_qnC_LTiwhxyuAQejoG3lphg6tlYZ0l2lmNqVQicXA7fg8kVXnBvat2tQP7zUhl4NH6B7KPI9EK6Ctq7-sfVyXcG?width=2000&height=1600&cropmode=none)
 *How can events like these be predicted?*
