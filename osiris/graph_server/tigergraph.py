@@ -1,9 +1,10 @@
-from time import sleep
-from turtle import position
-from base.timer import begin
+from pathlib import Path
 
 import pyTigerGraph as tg
+from tqdm.auto import tqdm, trange
+from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
+from base.timer import begin
 from core.graph_server import GraphServer
 
 class GraphServer(GraphServer):
@@ -47,14 +48,26 @@ class GraphServer(GraphServer):
             op.complete()
             return r
 
-    def load_file(self, job_name, file_tag, file_path):
+    def load(self, job_name, file_tag, data:bytes, bar:tqdm=None):
         params = {
             "tag": job_name,
             "filename": file_tag,
         }
-        with begin(f'Executing loading job {job_name} with file {file_path}') as op:
-            #self._post(self.restppUrl + "/ddl/" + self.graphname, params=params, data=data,
-            #              headers={"RESPONSE-LIMIT": str(sizeLimit), "GSQL-TIMEOUT": str(timeout)})
-            r = self.conn.uploadFile(jobName=job_name, filePath=file_path, fileTag=file_tag)
-            op.complete()
-            return r
+        if bar == None:
+            bar = tqdm(
+                desc=f"Executing loading job {job_name}",
+                total=len(data),
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+                leave=False
+            )        
+        fields = dict()
+        fields["file"] = ("filename", data)
+        e = MultipartEncoder(fields=fields)
+        m = MultipartEncoderMonitor(
+            e, lambda monitor: bar.update(monitor.bytes_read - bar.n)
+        )
+        r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
+        bar.close()
+        return r

@@ -2,16 +2,12 @@ import csv
 from logging import info, debug
          
 from google.cloud import bigquery
-from google.cloud.bigquery.table import RowIterator
-from google.cloud.bigquery import _tqdm_helpers, _pandas_helpers
 from google.cloud.bigquery_storage import BigQueryReadClient
-from tqdm import tqdm
-import pyarrow
+
 import pandas as pd
 from rich import print
 
 from bq_iterate.src.bq_iterate.core import BqTableRowsIterator, BqQueryRowsIterator, bq_iterator
-
 from core.datasource import DataSource
 
 class DataSource(DataSource):
@@ -21,14 +17,17 @@ class DataSource(DataSource):
         super().__init__("Google BigQuery")
         self.bqclient = bigquery.Client()
         self.bqstorageclient = BigQueryReadClient()
+        self.total_rows = 0
    
     def get_info(self):
         pass
     
     def import_data_table(self, bqtable, bs):
+        self.total_rows = self.bqclient.list_rows(bqtable).total_rows
         return bq_iterator(BqTableRowsIterator(self.bqclient, bqtable, bs))
             
     def import_data_query(self, bqquery, bs):
+        self.total_rows = self.bqclient.list_rows(self.bqclient.query(bqquery).destination).total_rows
         return bq_iterator(BqQueryRowsIterator(self.bqclient, bqquery, bs))
             
     def import_data(self, query_type, *args):
@@ -41,19 +40,21 @@ class DataSource(DataSource):
             rows_iter = self.import_data_query(args[0], bs)
         else:
             raise "Unsupported BigQuery import type."
+        if max_rows < self.total_rows:
+            self.total_rows = max_rows
+        debug(f'Total rows to fetch: {self.total_rows}.')
         batch_count = 0
-        total_rows = 0
-        from tqdm import tqdm
+        row_count = 0
         for rows in rows_iter:
             debug(f'Fetching batch {batch_count + 1} of {bs} rows from BigQuery {query_type}...')
-            df:pd.DataFrame = rows.to_dataframe()#self.rows_to_df(rows=rows)
+            df:pd.DataFrame = rows.to_dataframe()
             batch_count = batch_count + 1
-            total_rows = total_rows + rows.num_results
+            row_count = row_count + rows.num_results
             debug(f'Number of rows in batch {batch_count}: {rows.num_results}.')
-            debug(f'Total rows fetched: {total_rows}')
+            debug(f'Total rows fetched: {row_count}')
             batch_count = batch_count + 1
             yield df
-            if max_rows is not None and total_rows >= max_rows:
+            if max_rows is not None and row_count >= max_rows:
                 break
     
     def test_import_data(self, query_type, *args):

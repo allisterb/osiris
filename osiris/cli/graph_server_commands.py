@@ -95,4 +95,9 @@ def query_graph(_:click.Context, text, file):
 @click.pass_context
 def load(_:click.Context, jobname, filetag, filepath):
     from core.graph_server import i as graph_server
-    print(graph_server.load(jobname, filetag, filepath))
+    with begin(f'Executing loading job {jobname} with file {filepath}') as op:
+        with open(filepath, 'rb') as f:
+            data = f.read()
+            info(f'{filepath} is {len(data)} bytes.')
+            print(graph_server.load(jobname, filetag, data))
+            op.complete()
