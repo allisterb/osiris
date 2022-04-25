@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # osiris
+osiris_auth_env
 /models
 *.log
 *.csv

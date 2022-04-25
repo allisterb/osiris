@@ -19,7 +19,6 @@ select distinct
         ifnull(Actor2Geo_Long, 0.0),
         ifnull(Actor2Geo_FeatureID, '')
     ))) as ActorID,
-    GLOBALEVENTID as EventID,
     Actor2Code as ActorCode, 
     replace(Actor2Name, ',', ';') as ActorName, 
     Actor2CountryCode as ActorCountryCode, 
@@ -33,7 +32,6 @@ select distinct
     nullif(trim(concat(ifnull(Actor2Geo_ADM1Code, ''), ' ', ifnull(Actor2Geo_ADM2Code, ''))), '') as ActorGeo_ADMCode, 
     Actor2Geo_Lat as ActorGeo_Lat, 
     Actor2Geo_Long as ActorGeo_Long, 
-    Actor2Geo_FeatureID as ActorGeo_FeatureID,
-    parse_date('%Y%m%d', cast(SQLDATE as string)) AS EventDate 
+    Actor2Geo_FeatureID as ActorGeo_FeatureID
     from `gdelt-bq.gdeltv2.events`
-    where SQLDATE > 20220000 and SQLDATE < 20220421;
+    where SQLDATE > 20200400;

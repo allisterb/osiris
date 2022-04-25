@@ -88,16 +88,39 @@ def query_graph(_:click.Context, text, file):
         with open(file, 'r') as f:
             print(graph_server.query(f.read()))
 
-@graph_server_cmd.command('load', help = 'Load data into graph server using a loading job and local file.')
+@graph_server_cmd.command('load-file', help = 'Load data into graph server from a local file.')
 @click.argument('jobname')
 @click.argument('filetag')
 @click.argument('filepath', type=click.Path(exists=True))
 @click.pass_context
-def load(_:click.Context, jobname, filetag, filepath):
+def load_file(_:click.Context, jobname, filetag, filepath):
     from core.graph_server import i as graph_server
-    with begin(f'Executing loading job {jobname} with file {filepath}') as op:
-        with open(filepath, 'rb') as f:
-            data = f.read()
-            info(f'{filepath} is {len(data)} bytes.')
-            print(graph_server.load(jobname, filetag, data))
-            op.complete()
+    print(graph_server.load_file(jobname, filetag, filepath))
+
+@graph_server_cmd.command('load-bigquery', help = 'Load data into graph server using Google BigQuery.')
+@click.option('--google-app-creds', required=True, envvar="GOOGLE_APPLICATION_CREDENTIALS")
+@click.option('--query', 'kind', flag_value='query',  help='Retrieve data using a BigQuery query')
+@click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
+@click.option('--bs', type=int, default=1000, help='The batch-size to use when retrieving data from the table.')
+@click.option('--maxrows', type=int, default=None)
+@click.option('--test', is_flag=True, default=False, help='Only get the first batch of results and print information on them.')
+@click.argument('jobname')
+@click.argument('filetag')
+@click.argument('bq-arg')
+@click.pass_context
+def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jobname, filetag, bq_arg):
+    from core.graph_server import i as graph_server
+    with begin(f'Executing loading job {jobname} for tag {filetag} with data from Google BigQuery {kind} {bq_arg}') as op:
+        from data.bigquery import DataSource
+        bigquery = DataSource()
+        if test:
+            bigquery.test_import_data(kind, bq_arg, bs, maxrows)
+        else:
+            imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
+        for i, df in enumerate(imported_data):
+            prefix = '' if i == 0 else str(i + 1) + '_'
+            info(f'Writing data batch to {prefix + filename}...')
+            df.to_csv(prefix + filename, index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC)
+      op.complete()
+
+        

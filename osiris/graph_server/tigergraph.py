@@ -1,4 +1,4 @@
-from pathlib import Path
+from logging import info
 
 import pyTigerGraph as tg
 from tqdm.auto import tqdm, trange
@@ -71,3 +71,7 @@ class GraphServer(GraphServer):
         r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
         bar.close()
         return r
+
+
+    def load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg):
+        pass
