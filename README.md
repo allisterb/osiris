@@ -26,7 +26,7 @@ Data-driven forecasting is an essential activity in many key scientific areas li
 
 Even if we can use inductive and frequentist reasoning to predict human conflicts and crises, the nature of societies as *open, complex systems* may make prediction of crises intractable *unless we use the right models and data and methods.* 
 ![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=1696&height=1238&cropmode=none)
-<sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> by Phillip A. Schrodt 2013.</sub>
+<sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> page 22 by Phillip A. Schrodt, 2013.</sub>
 
 Our inability to use better models and methods to forecast political conflict and crises and societal violence severely hinders our ability to craft effective policy and makes the world a more dangerous place.
 
