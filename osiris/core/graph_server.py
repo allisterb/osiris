@@ -1,10 +1,6 @@
 import abc
-<<<<<<< HEAD
 from logging import info
-
 from base.timer import begin
-=======
->>>>>>> 4494b1fd3715be6aa645e13567e6e80ed49714ab
 
 target = None
 url = None
