@@ -1,5 +1,4 @@
 import abc
-from tkinter.messagebox import NO
 
 target = None
 url = None
