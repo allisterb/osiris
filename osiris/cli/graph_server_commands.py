@@ -101,7 +101,7 @@ def load_cmd(): pass
 @click.pass_context
 def load_file(_:click.Context, jobname, filetag, filepath):
     from core.graph_server import i as graph_server
-    print(graph_server.load_file(jobname, filetag, filepath))
+    print(graph_server.load_file(jobname, filetag, filepath, True))
 
 @load_cmd.command('bigquery', help = 'Load data into graph server using Google BigQuery.')
 @click.option('--google-app-creds', required=True, envvar="GOOGLE_APPLICATION_CREDENTIALS")
