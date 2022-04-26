@@ -93,7 +93,8 @@ class GraphServer(GraphServer):
                 results = dict()
                 for i, df in enumerate(imported_data):
                     if osiris_global.KBINPUT:
-                        break
+                        lop.abandon()
+                        return results
                     if i < skip_batches:
                         info(f'Skipping batch {i}...')
                         continue
