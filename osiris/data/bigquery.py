@@ -65,5 +65,5 @@ class DataSource(DataSource):
             df:pd.DataFrame = next(imported_data)
             op.complete()
         print(df)
-        data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
+        data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_MINIMAL).encode('utf-8')
         info(f'Size of CSV data batch is {len(data_bytes)} bytes.')
