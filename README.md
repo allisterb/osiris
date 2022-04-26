@@ -93,13 +93,6 @@ There are very few (possibly none) freely-available solutions for effectively us
 **osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based queries and  methods and models and visualization powered by scalable graph databases.**
 
 
-* A typical news day globally would comprise a network of tens of thousands of event vertices and edges like these.
-
-This global event data may be harvested from the massive amount of news stories published and available online each day where a *story* will *mention* a particular event on a particular date together with the actors involved. A schema in TigerGraph for this model of events and news would look like
-![gdelt_event_schema](https://dm2301files.storage.live.com/y4mEJMfRYpOgh_8PPTHp-k45OLbUuXThve4zBdAg-FZ7cR8JjtxaahKI-l0n8dSXoPKQA1QOvaIOW5YOpkA2mMuE1VCkQlIDyCjmoEaJHgy3Uxfpq_ZLOB5SBw88JfjT8zq2K-IwXbkfmIl7fHPMpVahvTG1ASLOPf3UGKo4gDH6HS6O7RlaYptEPu3gMhp2Jjw?width=1535&height=705&cropmode=none)
-
-Humans have been trying to figure out what causes conflict in our societies for millenia and this will only continue for millenia more. But one thing that has become clear is that we do not need a full theoretical treatment of any phenomena in order to make predictions. Using vast amounts of data and computing power, machines can discover and learn parameters from existing correlations and repeatedlthat allow them to predict sequences of events with surprising accuracy in a way that appears to emulate intelligence and understanding.
-
 osiris is designed to allow researchers and workers in technical conflict forecasting to easily and effectively use statistical and algorithmic methods like graph deep learning on the massive amounts of automatically extracted and coded spatio-temporal political event data from the  [GDELT](https://www.gdeltproject.org/) large-scale event dataset. osiris tries to solve all the common problems of working with the enormous amounts of  GDELT data, from extracting the existing denormalized tabular data from Google BigQuery or the GDELT file server, transforming it into a node-vertex schema and loading it into the graph database, to executing queries against graph data, and visualizing large graph datasets using Graphistry GPU-accelerated graph visualization.
 
 ![oo](https://github.com/allisterb/Mina/blob/master/docs/screencap_nb2.webp?raw=true)
@@ -113,8 +106,8 @@ osiris is designed to allow researchers and workers in technical conflict foreca
 ### CLI and Jupyter
 1. Create a Python venv e.g `python -m venv osiris` and activate it.
 2. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
-2. Run the install scripts: `install` on Windows or `./install` on Linux/macOS. This will install all the Python dependencies.
-3. Run `osi --help` or `./osi --help` to see the list of osiris CLI commands.
+3. Run the install scripts: `install` on Windows or `./install` on Linux/macOS. This will install all the Python dependencies.
+3. Run `osi --help` or `./osi --help` to see the list of osiris CLI commands. 
 4. Run `set_gsql_auth_env mytguser mytgpass` with the GSQL user and pass to your TigerGraph server instance.
 5. If you need to create a secret for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb create-secret mysecret` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events create-secret s2` assuming your GSQL user has the right permissions.
 6. If you need to get a token for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb get-token` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events get-token` This command looks for the API secret needed in the  `OSIRIS_GRAPH_SERVER_SECRET` env var.
