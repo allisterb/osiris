@@ -24,11 +24,11 @@ class DataSource(DataSource):
         pass
     
     def import_data_table(self, bqtable, bs):
-        self.total_rows = self.bqclient.list_rows(bqtable).total_rows
+        #self.total_rows = self.bqclient.list_rows(bqtable).total_rows
         return bq_iterator(BqTableRowsIterator(self.bqclient, bqtable, bs))
             
     def import_data_query(self, bqquery, bs):
-        self.total_rows = self.bqclient.list_rows(self.bqclient.query(bqquery).destination).total_rows
+        #self.total_rows = self.bqclient.list_rows(self.bqclient.query(bqquery).destination).total_rows
         return bq_iterator(BqQueryRowsIterator(self.bqclient, bqquery, bs))
             
     def import_data(self, query_type, *args):

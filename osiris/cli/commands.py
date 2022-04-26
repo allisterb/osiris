@@ -29,6 +29,8 @@ def graph_server(ctx, url, graph_name, target, user, passwd, token):
         exit_with_error('Only the TigerGraph graph database server is currently supported.')
     if graph_name == '_':
         graph_name = ''
+    if token == '':
+        token = None
     import core.graph_server
     ctx.obj['GRAPH_TARGET'] = core.graph_server.target = target
     ctx.obj['GRAPH_SERVER_URL'] = core.graph_server.url = url
