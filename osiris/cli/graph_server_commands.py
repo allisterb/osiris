@@ -12,14 +12,14 @@ from cli.util import *
 @graph_server_cmd.command('create-secret', help = 'Create an API secret for a graph server.')
 @click.argument('alias')
 @click.pass_context
-def get_token(ctx:click.Context, alias):
+def create_secret(ctx:click.Context, alias):
     from core.graph_server import i as graph_server
     print(graph_server.create_secret(alias))
 
-@graph_server_cmd.command('get-token', help = 'Get an authentication token for a graph server.')
-@click.argument('secret', envvar='OSIRIS_GRAPH_SERVER_SECRET')
+@graph_server_cmd.command('create-token', help = 'Get an authentication token for a graph server.')
+@click.option('--secret', envvar='OSIRIS_GRAPH_SERVER_SECRET')
 @click.pass_context
-def get_token(ctx:click.Context, secret):
+def create_token(ctx:click.Context, secret):
     from core.graph_server import i as graph_server
     print(graph_server.get_token(secret))
 
