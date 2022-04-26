@@ -1,5 +1,4 @@
 from logging import info
-from turtle import position
 
 import pyTigerGraph as tg
 from tqdm.auto import tqdm, trange
