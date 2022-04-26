@@ -89,16 +89,18 @@ class GraphServer(GraphServer):
                 "tag": jobname,
                 "filename": filetag,
             }
+            results = dict()
             for i, df in enumerate(imported_data):
-                with begin(f"Fetching batch {i + 1} of {maxrows / bs}") as op:
-                    data = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
-                op.complete()
+                with begin(f"Fetching batch {i + 1} of {int(maxrows / bs)}") as op:
+                    data = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_MINIMAL).encode('utf-8')
+                    op.complete()
                 upload_data_bar = tqdm(
-                    desc=f"Uploaing batch {i} data to TigerGraph server",
+                    desc=f"Uploaing batch {i + 1} to TigerGraph server",
                     unit="B",
                     unit_scale=True,
                     unit_divisor=1024,
-                    leave=False,
+                    total=len(data),
+                    leave=True,
                 )
                 fields = dict()
                 fields["file"] = ("filename", data)
@@ -106,8 +108,8 @@ class GraphServer(GraphServer):
                 m = MultipartEncoderMonitor(
                     e, lambda monitor: upload_data_bar.update(monitor.bytes_read - upload_data_bar.n)
                 )
-                r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
+                results[i] = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
                 upload_data_bar.close()
-                yield r
+            return results
                 
             

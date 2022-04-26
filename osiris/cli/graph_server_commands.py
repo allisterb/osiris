@@ -118,8 +118,8 @@ def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jo
     if test:
         bigquery.test_import_data(kind, bq_arg, bs, maxrows)
     else:
-        for r in graph_server.load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg):
-            print(r)
+        r = graph_server.load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg)
+        print(r)
 
 
         
