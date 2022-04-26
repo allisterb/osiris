@@ -46,10 +46,13 @@ CREATE DIRECTED EDGE Action_Target(
     event_date DATETIME
 ) WITH REVERSE_EDGE="Acted_on"
 
+CREATE VERTEX Source (
+    PRIMARY_ID source_name STRING
+ ) WITH primary_id_as_attribute="TRUE"
+
 CREATE VERTEX Story (
     PRIMARY_ID id STRING, 
-    story_date DATETIME,
-    source STRING
+    story_date DATETIME
  ) WITH primary_id_as_attribute="TRUE"
 
 CREATE DIRECTED EDGE Mention
@@ -58,5 +61,12 @@ CREATE DIRECTED EDGE Mention
     TO Event,
     mention_tone FLOAT
 ) WITH REVERSE_EDGE = "Mentioned_By"
+
+CREATE DIRECTED EDGE Publish
+(
+    FROM Source,
+    TO Story,
+    story_date DATETIME
+) WITH REVERSE_EDGE = "Published_By"
 
 CREATE GRAPH GDELT_Events(*)
