@@ -4,6 +4,7 @@ import pyTigerGraph as tg
 from tqdm.auto import tqdm, trange
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
+import osiris_global
 from base.timer import begin
 from core.graph_server import GraphServer
 
@@ -75,7 +76,7 @@ class GraphServer(GraphServer):
         return r
 
 
-    def load_bigquery(self, kind, bs, maxrows, test, jobname, filetag, bq_arg):
+    def load_bigquery(self, kind, bs, maxrows, skip_batches, test, jobname, filetag, bq_arg):
         import csv
         from data.bigquery import DataSource
         bigquery = DataSource()
@@ -91,24 +92,31 @@ class GraphServer(GraphServer):
                 headers={"RESPONSE-LIMIT": str(524288000)}
                 results = dict()
                 for i, df in enumerate(imported_data):
+                    if osiris_global.KBINPUT:
+                        break
+                    if i < skip_batches:
+                        info(f'Skipping batch {i}...')
+                        continue
                     with begin(f"Fetching batch {i + 1} of {int(maxrows / bs)}") as op:
                         data = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_MINIMAL).encode('utf-8')
                         op.complete()
-                    upload_data_bar = tqdm(
-                        desc=f"Uploading batch {i + 1} to TigerGraph server",
-                        unit="B",
-                        unit_scale=True,
-                        unit_divisor=1024,
-                        total=len(data),
-                        leave=True,
-                    )
-                    fields = dict()
-                    fields["file"] = ("filename", data)
-                    e = MultipartEncoder(fields=fields)
-                    m = MultipartEncoderMonitor(
-                        e, lambda monitor: upload_data_bar.update(monitor.bytes_read - upload_data_bar.n)
-                    )
-                    results[i] = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, headers=headers, data=m)
-                    upload_data_bar.close()
+                    with begin(f"Uploading batch {i + 1} of {int(maxrows / bs)}") as op:
+                        upload_data_bar = tqdm(
+                            desc=f"Uploading batch {i + 1} to TigerGraph server",
+                            unit="B",
+                            unit_scale=True,
+                            unit_divisor=1024,
+                            total=len(data),
+                            leave=True,
+                        )
+                        fields = dict()
+                        fields["file"] = ("filename", data)
+                        e = MultipartEncoder(fields=fields)
+                        m = MultipartEncoderMonitor(
+                            e, lambda monitor: upload_data_bar.update(monitor.bytes_read - upload_data_bar.n)
+                        )
+                        results[i] = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, headers=headers, data=m)
+                        upload_data_bar.close()
+                        op.complete()
                 lop.complete()
                 return results

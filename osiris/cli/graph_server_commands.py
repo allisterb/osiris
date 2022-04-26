@@ -109,18 +109,19 @@ def load_file(_:click.Context, jobname, filetag, filepath):
 @click.option('--table', 'kind', flag_value='table', default=True, help='Retrieve data from a BigQuery table')
 @click.option('--bs', type=int, default=1000, help='The batch-size to use when retrieving data from the table.')
 @click.option('--maxrows', type=int, default=None)
+@click.option('--skip-batches', type=int, default=0)
 @click.option('--test', is_flag=True, default=False, help='Only get the first batch of results and print information on them.')
 @click.argument('jobname')
 @click.argument('filetag')
 @click.argument('bq-arg')
 @click.pass_context
-def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jobname, filetag, bq_arg):
+def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, skip_batches, test, jobname, filetag, bq_arg):
     from core.graph_server import i as graph_server   
     from data.bigquery import DataSource
     bigquery = DataSource()
     if test:
         bigquery.test_import_data(kind, bq_arg, bs, maxrows)
     else:
-        r = graph_server.load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg)
+        r = graph_server.load_bigquery(kind, bs, maxrows, skip_batches, test, jobname, filetag, bq_arg)
         info(f'Printing result of load data operation...')
         print(r)
