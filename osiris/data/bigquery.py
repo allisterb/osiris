@@ -9,6 +9,7 @@ from rich import print
 
 from bq_iterate.src.bq_iterate.core import BqTableRowsIterator, BqQueryRowsIterator, bq_iterator
 from core.datasource import DataSource
+from base.timer import begin
 
 class DataSource(DataSource):
     """Import and monitor data from Google BigQuery"""
@@ -60,7 +61,9 @@ class DataSource(DataSource):
     def test_import_data(self, query_type, *args):
         imported_data:iter["pd.DataFrame"] = self.import_data(query_type, args[0], args[1], args[2])
         info(f'Test mode for import enabled.')
-        df:pd.DataFrame = next(imported_data)
+        with begin(f'Fetching first batch of {args[1]} rows') as op:
+            df:pd.DataFrame = next(imported_data)
+            op.complete()
         print(df)
         data_bytes = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
         info(f'Size of CSV data batch is {len(data_bytes)} bytes.')

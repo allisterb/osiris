@@ -1,18 +1,12 @@
 USE GRAPH GDELT_Events
 
-DROP JOB actor1_data
-DROP JOB actor2_data
+DROP JOB actor_data
 DROP JOB actions_data
 DROP JOB mentions_data
 
-CREATE LOADING JOB actor1_data FOR GRAPH GDELT_Events  {
+CREATE LOADING JOB actor_data FOR GRAPH GDELT_Events  {
    DEFINE FILENAME file1; 
-   LOAD file1 TO VERTEX Actor1 VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) USING SEPARATOR=",", HEADER="TRUE";
-}
-
-CREATE LOADING JOB actor2_data FOR GRAPH GDELT_Events  {
-   DEFINE FILENAME file1; 
-   LOAD file1 TO VERTEX Actor2 VALUES ($0, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) USING SEPARATOR=",", HEADER="TRUE";
+   LOAD file1 TO VERTEX Actor1 VALUES ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) USING SEPARATOR=",", HEADER="TRUE";
 }
 
 CREATE LOADING JOB actions_data FOR GRAPH GDELT_Events  {

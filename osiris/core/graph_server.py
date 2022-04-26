@@ -54,6 +54,10 @@ class GraphServer(abc.ABC):
                 r = self.load(job_name, file_tag, data)
                 op.complete()
                 return r
-
+    
+    @abc.abstractmethod
+    def load_bigquery(self, kind, bs, maxrows, test, jobname, filetag, bq_arg):
+        """Bulk load data to the graph_server from GoogleBigQuery."""
+        
 # Instance of a GraphServer.
 i: GraphServer = None

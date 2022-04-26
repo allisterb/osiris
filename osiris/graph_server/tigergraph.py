@@ -1,4 +1,5 @@
 from logging import info
+from turtle import position
 
 import pyTigerGraph as tg
 from tqdm.auto import tqdm, trange
@@ -48,12 +49,13 @@ class GraphServer(GraphServer):
             op.complete()
             return r
 
-    def load(self, job_name, file_tag, data:bytes, bar:tqdm=None):
+    def load(self, job_name, file_tag, data:bytes, use_bar=True):
         params = {
             "tag": job_name,
             "filename": file_tag,
         }
-        if bar == None:
+        e = MultipartEncoder(fields=fields)
+        if use_bar:
             bar = tqdm(
                 desc=f"Executing loading job {job_name}",
                 total=len(data),
@@ -61,17 +63,51 @@ class GraphServer(GraphServer):
                 unit_scale=True,
                 unit_divisor=1024,
                 leave=False
-            )        
+            ) 
+            m = MultipartEncoderMonitor(
+                e, lambda monitor: bar.update(monitor.bytes_read - bar.n)
+            )
+        else:
+            m = e       
         fields = dict()
         fields["file"] = ("filename", data)
-        e = MultipartEncoder(fields=fields)
-        m = MultipartEncoderMonitor(
-            e, lambda monitor: bar.update(monitor.bytes_read - bar.n)
-        )
         r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
         bar.close()
         return r
 
 
-    def load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg):
-        pass
+    def load_bigquery(self, kind, bs, maxrows, test, jobname, filetag, bq_arg):
+        import csv
+        from data.bigquery import DataSource
+        bigquery = DataSource()
+        
+        if test:
+            bigquery.test_import_data(kind, bq_arg, bs, maxrows)
+        else:
+            imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
+            params = {
+                "tag": jobname,
+                "filename": filetag,
+            }
+            for i, df in enumerate(imported_data):
+                with begin(f"Fetching batch {i + 1} of {maxrows / bs}") as op:
+                    data = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC).encode('utf-8')
+                op.complete()
+                upload_data_bar = tqdm(
+                    desc=f"Uploaing batch {i} data to TigerGraph server",
+                    unit="B",
+                    unit_scale=True,
+                    unit_divisor=1024,
+                    leave=False,
+                )
+                fields = dict()
+                fields["file"] = ("filename", data)
+                e = MultipartEncoder(fields=fields)
+                m = MultipartEncoderMonitor(
+                    e, lambda monitor: upload_data_bar.update(monitor.bytes_read - upload_data_bar.n)
+                )
+                r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
+                upload_data_bar.close()
+                yield r
+                
+            

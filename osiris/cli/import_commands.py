@@ -4,7 +4,9 @@ from logging import info, error
 import pandas as pd
 import click
 from rich import print
+from tqdm.auto import tqdm
 from google.cloud.bigquery.table import RowIterator
+
 from base.timer import begin
 from cli.commands import data_import
 from cli.util import *
@@ -39,8 +41,16 @@ def import_bigquery(google_app_creds, kind, bs, maxrows, test, bq_arg, filename)
          bigquery.test_import_data(kind, bq_arg, bs, maxrows)
       else:
          imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
+         bar = tqdm(
+                desc=f"Importing data batches from {kind} {bq_arg}",
+                total=maxrows / bs,
+                unit="batch",
+                leave=True
+         )
          for i, df in enumerate(imported_data):
             prefix = '' if i == 0 else str(i + 1) + '_'
-            info(f'Writing data batch to {prefix + filename}...')
+            bar.write(f'Writing data batch {i + 1} to {prefix + filename}...')
             df.to_csv(prefix + filename, index=False, sep=',', header=True, quoting=csv.QUOTE_NONNUMERIC)
+            bar.update()
+         bar.close()
       op.complete()

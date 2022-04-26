@@ -112,15 +112,14 @@ def load_file(_:click.Context, jobname, filetag, filepath):
 @click.argument('bq-arg')
 @click.pass_context
 def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jobname, filetag, bq_arg):
-    from core.graph_server import i as graph_server
-    with begin(f'Executing loading job {jobname} for tag {filetag} with data from Google BigQuery {kind} {bq_arg}') as op:
-        from data.bigquery import DataSource
-        bigquery = DataSource()
-        if test:
-            bigquery.test_import_data(kind, bq_arg, bs, maxrows)
-        else:
-            imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
-        #for i, df in enumerate(imported_data):   
-        op.complete()
+    from core.graph_server import i as graph_server   
+    from data.bigquery import DataSource
+    bigquery = DataSource()
+    if test:
+        bigquery.test_import_data(kind, bq_arg, bs, maxrows)
+    else:
+        for r in graph_server.load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg):
+            print(r)
+
 
         
