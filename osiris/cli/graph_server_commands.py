@@ -3,9 +3,9 @@ from logging import info, error
 
 import click
 from rich import print
-from base.timer import begin
 
 import osiris_global
+from base.timer import begin
 from cli.commands import graph_server as graph_server_cmd
 from cli.util import *
 
@@ -50,14 +50,16 @@ def statistics(ctx:click.Context, seconds):
     print(graph_server.get_statistics(seconds))
 
 @graph_server_cmd.command('monitor', help = 'Start a daemon process to monitor a graph server.')
-@click.argument('interval', default=15)
+@click.argument('interval', default=900)
 @click.argument('report', default=59)
 @click.pass_context
 def monitor(_:click.Context, interval, report):
     from core.graph_server import i as graph_server
     orig_time = time.time()
-    info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-    print(graph_server.get_statistics(report))
+    if graph_server.echo() == 'Hello GSQL':
+        info("GSQL endoint responded.")
+    else:
+        error('GSQL endpoint did not respond.')
     info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {interval} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
     last_ping_time = orig_time
     osiris_global.DAEMON = True
@@ -65,9 +67,10 @@ def monitor(_:click.Context, interval, report):
         time.sleep(3)
         current_time = time.time()
         if current_time - last_ping_time >= interval:
-            stats = graph_server.get_statistics(report)
-            info(f'Printing statistics for graph {graph_server.graph_name} on server {graph_server.url} for the past {report} seconds...')
-            print(stats)
+            if graph_server.echo() == 'Hello GSQL':
+                info("GSQL endoint responded.")
+            else:
+                error('GSQL endpoint did not respond.')
             info(f'Monitoring graph {graph_server.graph_name} on server {graph_server.url} every {interval} seconds started at {time.strftime("%b-%d-%Y %H:%M:%S", time.localtime(orig_time))}...')
             last_ping_time = current_time
 
@@ -119,7 +122,5 @@ def load_bigquery(_:click.Context, google_app_creds, kind, bs, maxrows, test, jo
         bigquery.test_import_data(kind, bq_arg, bs, maxrows)
     else:
         r = graph_server.load_bigquery(kind, bs, maxrows, test, jobname, filetag, bq_arg)
+        info(f'Printing result of load data operation...')
         print(r)
-
-
-        

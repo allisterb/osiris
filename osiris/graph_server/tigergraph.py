@@ -79,12 +79,10 @@ class GraphServer(GraphServer):
         import csv
         from data.bigquery import DataSource
         bigquery = DataSource()
-        
         if test:
             bigquery.test_import_data(kind, bq_arg, bs, maxrows)
         else:
             with begin(f'Load data from Google BigQuery {kind} {bq_arg} in batches of {bs} rows') as lop:
-                
                 imported_data = bigquery.import_data(kind, bq_arg, bs, maxrows)
                 params = {
                     "tag": jobname,
@@ -110,7 +108,6 @@ class GraphServer(GraphServer):
                     m = MultipartEncoderMonitor(
                         e, lambda monitor: upload_data_bar.update(monitor.bytes_read - upload_data_bar.n)
                     )
-                    
                     results[i] = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, headers=headers, data=m)
                     upload_data_bar.close()
                 lop.complete()

@@ -47,6 +47,7 @@ class GraphServer(abc.ABC):
         """Bulk load data to the graph_server."""
 
     def load_file(self, job_name, file_tag, file_path):
+        """Bulk load data to the graph_server from a local file."""
         with begin(f'Executing loading job {job_name} with file {file_path}') as op:
             with open(file_path, 'rb') as f:
                 data = f.read()
@@ -57,7 +58,7 @@ class GraphServer(abc.ABC):
     
     @abc.abstractmethod
     def load_bigquery(self, kind, bs, maxrows, test, jobname, filetag, bq_arg):
-        """Bulk load data to the graph_server from GoogleBigQuery."""
-        
+        """Bulk load data to the graph server from Google BigQuery."""
+
 # Instance of a GraphServer.
 i: GraphServer = None
