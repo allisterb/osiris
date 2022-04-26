@@ -55,7 +55,10 @@ class DataSource(DataSource):
                     op2.complete()
             op.complete()
         return pd.concat(results)
-        
+    
+    def test_import_data(self, query_type, *args):
+        pass
+    
     def monitor(message_queue:queue.Queue):
         return ''
 

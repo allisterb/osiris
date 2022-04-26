@@ -25,7 +25,7 @@ The rationalist approach to predicting crises and conflicts assumes there are th
 Data-driven forecasting is an essential activity in many key scientific areas like meteorology and climate studies and models for things like famine forecasting and mortgage repayment have been shown to be accurate. But human beings and societies have different properties from natural phenomena like hurricances and planets and black holes. Humans are rational, self-actualizing, purpose-driven entities, existing in a moral environment in addition to a physical and economic environment. The assumptions of uniform natural properties and relations and laws unvarying over time that are necessary for the inductive reasoning of traditional scientific prediction may not always hold for the actions of human beings and societies and countries in conflict. 
 
 Even if we can use inductive and frequentist reasoning to predict human conflicts and crises, the nature of societies as *open, complex systems* may make prediction of crises intractable *unless we use the right models and methods and data.* 
-![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=1696&height=1238&cropmode=none)
+![afcoin](https://dm2301files.storage.live.com/y4meKdvxRDnW5o5J4cpqeU-Si5wZWtmvANpnHfa8t72aVqXNUqGhpQDcID169QbA6Wn0wuOQXipOEEY0S31w8mk0v8GqiH6DYec5dt8YdxY3Y5Eh7IGTd5bdt1HliWfPDFYAC-J1QDQ98ZvJFC2bUMd6o3hl8U7-l9SYhuHTpgw3OuIjmL2-Y-AdXAqdxDQjvQO?width=848&height=619&cropmode=none)
 <sub>From <a href="https://parusanalytics.com/eventdata/presentations.dir/Schrodt.Forecasting.Lecture1.pdf">"Forecasting Conflict Lecture 1 - Technical Political Forecasting: An Overview"</a> page 22 by Phillip A. Schrodt, 2013.</sub>
 
 New types of data like *open event data* maybe more effective and faster in predicting conflict and crises e.g. Phil Schrodt "[Open Event Data and the Prospects for Near-RealTime Forecasting Models](https://parusanalytics.com/eventdata/presentations.dir/Schrodt.PRIO15.OpenSource.slides.pdf)":
@@ -48,8 +48,8 @@ The diagram captures a tiny part of the conflict that erupted in the U.S. in the
 The larger vertices outlined in orange represent *events* while the smaller vertices represent *actors*. Each event has spatio-temporal attributes and is [coded](https://en.wikipedia.org/wiki/Conflict_and_Mediation_Event_Observations) using a standard classification like `1823 KILL BY PHYSICAL ASSAULT` or `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS`.
 Directed edges connect actors with events with each event being connected to a dyad or pair of actors where one actor is the *source* of the event action and the other the *target*. 
 
-Using this model we observe the following:
-
+Using this model we can observe the following:
+* Disparate events and actors may be coded using standard codes allowing consistent connections between them 
 * Actors initiate and receive event actions and events connect to other events only through actor vertices.
 * If an event A is possible cause of B then A must happen before B and a path must exist from B to A passing only through event vertices that also precede B.
 * A sequence or chain of events leading to a violent event may show increasing levels of intensity e.g `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS` -> `153 MOBILIZE OR INCREASE POLICE POWER` -> `1823 KILL BY PHYSICAL ASSAULT`. The event coding can reflect this increase numerically with codes with a higher starting triple representing escalation.
@@ -107,12 +107,56 @@ osiris is designed to allow researchers and workers in technical conflict foreca
 1. Create a Python venv e.g `python -m venv osiris` and activate it.
 2. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
 3. Run the install scripts: `install` on Windows or `./install` on Linux/macOS. This will install all the Python dependencies.
-3. Run `osi --help` or `./osi --help` to see the list of osiris CLI commands. 
-4. Run `set_gsql_auth_env mytguser mytgpass` with the GSQL user and pass to your TigerGraph server instance.
-5. If you need to create a secret for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb create-secret mysecret` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events create-secret s2` assuming your GSQL user has the right permissions.
-6. If you need to get a token for the REST++ API of your server you can say `osi graph mytgserverurl mytgdb get-token` e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events get-token` This command looks for the API secret needed in the  `OSIRIS_GRAPH_SERVER_SECRET` env var.
-7. Run `set_restpp_auth_env[.sh] mytgtoken` with the REST++ API token for your TigerGraph server instance.
-8. If your GSQL and REST++ auth env variables are set you can do `osi[.sh] graph mytgserver mytgdb ping` to check connectivity to your graph server e.g. `osi graph https://osiris0.i.tgcloud.io GDELT_Events ping`. 
-
-10. To start Jupyter server run `start_jupyter[.sh] path_to_my_notebooks` e.g. `start_jupyter notebooks`.
+4. Run `osi --help` or `./osi --help` to see the list of osiris CLI commands. 
+5. Set the `OSIRIS_GRAPH_SERVER_USER` and `OSIRIS_GRAPH_SERVER_PASS` with the admin user and pass to your TigerGraph server instance.
+6. Run `osi graph https://osiris-dev.i.tgcloud.io _ query --file gsql/ddl_graph_GDELT_Events.gsql` to create the *GDELT_Events* graph
+````
+                                                                                                                                     
+(osiris) root@alexander:~/Projects/osiris# osi graph https://osiris-dev.i.tgcloud.io _ query --file gsql/ddl_graph_GDELT_Events.gsql 
+               __        __                                                                                                          
+.-----.-----.|__|.----.|__|.-----.                                                                                                   
+|  _  |__ --||  ||   _||  ||__ --|                                                                                                   
+|_____|_____||__||__|  |__||_____|                                                                                                   
+                                                                                                                                     
+                                                                                                                                     
+0.1.0                                                                                                                                
+                                                                                                                                     
+                                                                                                                                     
+11:58:01 AM INFO     Using user tigergraph and password xxxM3 for graph server https://osiris-dev.i.tgcloud.io...                    
+            INFO     Using file gsql/ddl_graph_GDELT_Events.gsql as query source.                                                    
+            INFO     Executing query on graph ...                                                                                    
+11:59:44 AM INFO     Executing query on graph  completed in 103.17 s.                                                                
+Dropping all, about 1 minute ...                                                                                                     
+Abort all active loading jobs                                                                                                        
+Resetting GPE...                                                                                                                     
+Successfully reset GPE and GSE                                                                                                       
+Stopping GPE GSE                                                                                                                     
+Successfully stopped GPE GSE in 0.005 seconds                                                                                        
+Clearing graph store...                                                                                                              
+Successfully cleared graph store                                                                                                     
+Starting GPE GSE RESTPP                                                                                                              
+Successfully started GPE GSE RESTPP in 0.072 seconds                                                                                 
+Everything is dropped.                                                                                                               
+Successfully created vertex types: [Event].                                                                                          
+Successfully created vertex types: [Actor].                                                                                          
+Successfully created edge types: [Acted].                                                                                            
+Successfully created reverse edge types: [Action_Source].                                                                            
+Successfully created edge types: [Action_Target].                                                                                    
+Successfully created reverse edge types: [Acted_on].                                                                                 
+Successfully created vertex types: [Story].                                                                                          
+Successfully created edge types: [Mention].                                                                                          
+Successfully created reverse edge types: [Mentioned_By].                                                                             
+Stopping GPE GSE RESTPP                                                                                                              
+Successfully stopped GPE GSE RESTPP in 30.310 seconds                                                                                
+Starting GPE GSE RESTPP                                                                                                              
+Successfully started GPE GSE RESTPP in 0.072 seconds                                                                                 
+````
+7. Create a secret for the REST++ API of your graph: `osi graph mytgserverurl mytgdb create-secret mysecret` e.g. `osi graph https://osiris-dev.i.tgcloud.io GDELT_Events create-secret s1`. Set the `OSIRIS_GRAPH_SERVER_SECRET` env var to the secret value.
+8. Create a token for the REST++ API of your graph: `osi graph mytgserverurl mytgdb get-token` e.g. `osi graph https://osiris-dev.i.tgcloud.io GDELT_Events create-token` This command looks for the API secret needed in the  `OSIRIS_GRAPH_SERVER_SECRET` env var. Set the `OSIRIS_GRAPH_SERVER_TOKEN` env var to the token value.
+9. Once your GSQL and REST++ auth env variables are set you can do `osi graph mytgserver mytgdb ping` to check connectivity to your graph server e.g. `osi graph https://osiris-dev.i.tgcloud.io GDELT_Events ping`.
+10. Create the data load jobs for your graph `osi graph https://osiris-dev.i.tgcloud.io _ query --file gsql/ddl_jobs_GDELT_Events.gsql`.
+11. Do a test data load using sample data e.g. `osi graph https://osiris-dev.i.tgcloud.io GDELT_Events load file actions_data file1 sample_data\actions_sample.csv`. Small osiris datasets as CSV files will be available on the osiris GitHub [releases](https://github.com/allisterb/osiris/releases) page.
+12. To load data from the osiris datasets on Google BigQuery you'll need to have a [Google Cloud](https://cloud.google.com/) project and a service account and credentials to access BigQuery data. See the [Google docs](https://cloud.google.com/bigquery/docs/bigquery-storage-python-pandas) on how to create credentials to access BigQuery datasets and tables. You should set the `GOOGLE_APPLICATION_CREDENTIALS` env var to the location of your Google Cloud project credentials. With you credentials set you can say:
+`osi graph https://osiris-dev.i.tgcloud.io GDELT_Events load bigquery actors_data file1 --table osiris-347701.gdelt_snapshots.events_actors_20200400_ --bs 100000 --maxrows 300000` To load 300000 *Actor* vertices using the `actors_data` job.
+10. To start Jupyter server with the osiris notebooks you can say `jupyter notebook notebooks` in the osiris project root.
  
