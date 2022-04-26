@@ -46,13 +46,13 @@ class GraphServer(abc.ABC):
     def load(self, job_name, file_tag, data:bytes, *args):
         """Bulk load data to the graph_server."""
 
-    def load_file(self, job_name, file_tag, file_path):
+    def load_file(self, job_name, file_tag, file_path, use_bar):
         """Bulk load data to the graph_server from a local file."""
         with begin(f'Executing loading job {job_name} with file {file_path}') as op:
             with open(file_path, 'rb') as f:
                 data = f.read()
                 info(f'{file_path} is {len(data)} bytes.')
-                r = self.load(job_name, file_tag, data)
+                r = self.load(job_name, file_tag, data, use_bar)
                 op.complete()
                 return r
     

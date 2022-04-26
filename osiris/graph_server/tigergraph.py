@@ -53,6 +53,8 @@ class GraphServer(GraphServer):
             "tag": job_name,
             "filename": file_tag,
         }
+        fields = dict()
+        fields["file"] = ("filename", data)
         e = MultipartEncoder(fields=fields)
         if use_bar:
             bar = tqdm(
@@ -68,8 +70,6 @@ class GraphServer(GraphServer):
             )
         else:
             m = e       
-        fields = dict()
-        fields["file"] = ("filename", data)
         r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
         bar.close()
         return r
