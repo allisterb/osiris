@@ -23,8 +23,8 @@ class GraphServer(abc.ABC):
         """Make a basic query on a graph database server."""
 
     @abc.abstractmethod
-    def get_info(self):
-        """Get information on graph database server."""
+    def get_info(self, vertex_type, edge_type):
+        """Get information on graph database server objects."""
 
     @abc.abstractmethod
     def create_secret(self, *args):

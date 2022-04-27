@@ -34,12 +34,14 @@ def ping(ctx:click.Context):
         print(graph_server.echo())
         op.complete()
 
-@graph_server_cmd.command('info', help = 'Print info on graph server objects and endpoints.')
+@graph_server_cmd.command('info', help = 'Print info on graph server objects.')
+@click.option('--vertex', default='*', help='The vertex type to return info on.')
+@click.option('--edge', default='*', help='The edge type to return info on.')
 @click.pass_context
-def info_cmd(ctx:click.Context):
+def info_cmd(ctx:click.Context, vertex, edge):
     from core.graph_server import i as graph_server
-    info('Printing info for graph {graph_server.graph_name} on server {graph_server.url}')
-    print(graph_server.get_info())
+    info(f'Printing info for vertex type {vertex} and edge type {edge} from graph {graph_server.graph_name} on server {graph_server.url}')
+    print(graph_server.get_info(vertex, edge))
 
 @graph_server_cmd.command('stats', help = 'Print graph server statistics')
 @click.argument('seconds', default=59)

@@ -1,3 +1,4 @@
+from distutils.log import error
 from logging import info
 
 import pyTigerGraph as tg
@@ -23,15 +24,16 @@ class GraphServer(GraphServer):
     def echo(self):
         return self.conn.echo()
 
-    def get_info(self):
+    def get_info(self, vertex_type='*', edge_type='*'):
         info = dict()
-        e = self.conn.getEndpoints()
-        p = self.conn._get(
-            self.conn.restppUrl + "/showprocesslist/" + self.graph_name, resKey=None)
-        info['endpoints'] = self.conn.getEndpoints(True, True)
-        info['edges'] = self.conn.getEdgeStats("*")
-        info['vertices'] = self.conn.getVertexStats("*")
-        info['process list'] = p['results']
+        try:
+            info['vertices'] = self.conn.getVertexStats(vertex_type)
+        except Exception as e:
+            error(f'Error fetching node stats: {e}.')
+        try:
+            info['edges'] = self.conn.getEdgeStats(edge_type)
+        except Exception as e:
+            error(f'Error fetching edge stats: {e}.')
         return info
 
     def create_secret(self, alias):
