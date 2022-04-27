@@ -51,3 +51,15 @@ def kb_capture_thread():
         KBINPUT = True
         if INTERACTIVE_CLI:
             info('Program stop requested.')
+
+def tqdm_iter(i, **kwargs):
+    if DEBUG:
+        return i
+    elif INTERACTIVE_CLI:
+        from tqdm import tqdm
+        return(tqdm(i, **kwargs))
+    elif INTERACTIVE_NOTEBOOK:
+        from  tqdm.notebook import tqdm_notebook
+        return tqdm_notebook(i, **kwargs)
+    else:
+        return i

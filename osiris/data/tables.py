@@ -5,6 +5,8 @@ from tqdm import tqdm
 from tqdm.auto import trange
 import pandas as pd
 
+import osiris_global
+from osiris_global import tqdm_iter
 from base.timer import begin
 from data.bigquery import DataSource
 
@@ -18,7 +20,7 @@ def events(start_date:datetime, end_date:datetime=None, bs=10000, maxrows=None):
     with begin(f'Fetching row iterator for table {table}') as op:
         data = bigquery.import_data("table", table, bs, maxrows)
         op.complete()
-    return pd.concat(tqdm(data, total = (int(maxrows / bs) if maxrows is not None else None )))
+    return pd.concat(tqdm_iter(data, total = (int (maxrows / bs) if maxrows is not None else None), unit="batch"))
 
 
 
