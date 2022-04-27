@@ -16,11 +16,8 @@ def events(start_date:datetime, end_date:datetime=None, bs=10000, maxrows=None):
     table:str = ''
     if start_date >= '20022-01-01':
         table = "osiris-347701.gdelt_snapshots.events_actions_20220000_20220421"
-
-    with begin(f'Fetching row iterator for table {table}') as op:
-        data = bigquery.import_data("table", table, bs, maxrows)
-        op.complete()
-    return pd.concat(tqdm_iter(data, total = (int (maxrows / bs) if maxrows is not None else None), unit="batch"))
+    data = bigquery.import_data("table", table, bs, maxrows)
+    return pd.concat(tqdm_iter(data, desc=f'Fetch events data in batches of {bs} rows', total = (int (maxrows / bs) if maxrows is not None else None), unit="batch"))
 
 
 
