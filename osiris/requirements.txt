@@ -5,7 +5,5 @@ pyfiglet
 jupyter
 pyTigerGraph
 google-cloud-bigquery[bqstorage,pandas]
-graphistry
-tenacity
 tqdm
 requests-toolbelt
