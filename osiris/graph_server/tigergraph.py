@@ -123,3 +123,8 @@ class GraphServer(GraphServer):
                         op.complete()
                 lop.complete()
                 return results
+
+    def gsqlquery(self):
+        import requests
+        from requests.auth import HTTPBasicAuth
+        res = requests.get(self.conn.gsUrl + "/gsqlserver/interpreted_query", verify=False, auth=HTTPBasicAuth(self.user, self.passwd))

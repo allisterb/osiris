@@ -41,7 +41,7 @@ class DataSource(DataSource):
             rows_iter = self.import_data_query(args[0], bs)
         else:
             raise "Unsupported BigQuery import type."
-        if max_rows < self.total_rows:
+        if max_rows is not None and max_rows < self.total_rows:
             self.total_rows = max_rows
         debug(f'Total rows to fetch: {self.total_rows}.')
         batch_count = 0

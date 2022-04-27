@@ -134,4 +134,3 @@ osiris_auth_env*
 *.log
 *.csv
 sample_data
-data
