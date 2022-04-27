@@ -1,0 +1,9 @@
+CREATE QUERY actor_acted() FOR GRAPH GDELT_Events SYNTAX V2 API("v2"){ 
+  ListAccum<EDGE> @edgeList;
+  actors = 
+    select s from Actor:s-(Acted>:a)-Event:e
+    accum s.@edgeList += a
+    where e.event_date > "2022-01-01"
+    limit 100;
+  print actors;
+}
