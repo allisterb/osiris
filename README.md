@@ -3,6 +3,9 @@
 <img src="https://dm2301files.storage.live.com/y4mmRC1xelS6Y6MEqUnZ-k2vjpADHpo6UMZAaZWROunr9-Ml5FYDlZ6WMxCGedy7NDhwDpusZdF5E1oLR5Qn6momydHe7tYUOMwNeFeGW7pUWkBjGPSnZp2sacYWs9IKkose6xjhSySL_v2tbfItRI7T_Pw_Tayhaa2F_vrwW6ucyr6WPa6s9DWH_if9Y5Y3yAU?width=375&height=250&cropmode=none"/>
 </p>
 
+osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based queries and  methods and models and visualization powered by scalable graph databases. To get started see the [wiki](https://github.com/allisterb/osiris/wiki).
+
+
 Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
 
 
@@ -105,8 +108,9 @@ osiris is designed to allow researchers and workers in technical conflict foreca
 * Python 3.8+
 
 ## Installation
-### Requirements
-osiris requires a TigerGraph instance with at least 32GB of RAM. Data loading into TigerGraph can take a lot pf disk space so it's recommened you have at least 100GB available.
+### Hardware requirements
+osiris requires a TigerGraph instance with at least 32GB of RAM. Data loading into TigerGraph can take a lot of disk space so it's recommended you have at least 100GB available. On a 8vCPU x 32 GB RAM TigerGraph cloud instance with 100G disk storage, about 34M event vertices and 68M edges shaped from the [GDELT Events dataset](https://blog.gdeltproject.org/gdelt-2-0-our-global-world-in-realtime/) take about 20GB RAM abnd about 40GB disk space. This represents about a quarter of the 134M event vertices in the `osiris-347701.gdelt_snapshots.events_actors_20200400_` table on Google BigQuery which contains all GDELT events extracted and shaped from 2020-04-20 to 20220-04-20.
+
 ### CLI and Jupyter
 1. Create a Python venv e.g `python -m venv osiris` and activate it.
 2. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
