@@ -1,5 +1,5 @@
 import os, sys
-from logging import info
+from logging import info,debug
 
 DEBUG = False
 
@@ -63,3 +63,10 @@ def tqdm_iter(i, **kwargs):
         return tqdm_notebook(i, **kwargs)
     else:
         return i
+
+def tqdm_debug(t, x):
+    if DEBUG:
+        if INTERACTIVE_CLI or INTERACTIVE_NOTEBOOK:
+            t.write(x)
+        else:
+            debug(x)

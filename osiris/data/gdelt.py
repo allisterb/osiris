@@ -1,3 +1,4 @@
+from functools import partial
 import queue
 from datetime import datetime, timedelta
 from logging import info, error, debug
@@ -5,6 +6,7 @@ from logging import info, error, debug
 import gdelt
 import pandas as pd           
 
+from osiris_global import tqdm_iter, tqdm_debug
 from base.timer import begin
 from core.datasource import DataSource
 
@@ -48,11 +50,12 @@ class DataSource(DataSource):
         days = [start_date + timedelta(days=x) for x in range(d.days + 1)]
         results:list[pd.DataFrame] = list()
         with begin(f"Importing GDELT {table} data for {len(days)} day(s) from {start_date.strftime('%m-%d-%Y')} to {end_date.strftime('%m-%d-%Y')}") as op:
-            for day in days:
-                with begin(f"Importing GDELT {table} data for {day.strftime('%m-%d-%Y')}") as op2:
-                    r = self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table, output=output)
-                    results.append(r)
-                    op2.complete()
+            _days = tqdm_iter(days, total=len(days), unit="day", desc=f'Import GDELT {table} data')
+            _debug = partial(tqdm_debug, _days)
+            for day in _days:
+                _debug(f"Importing GDELT {table} data for {day.strftime('%m-%d-%Y')}.")
+                r = self.gd2.Search(day.strftime('%m-%d-%Y %H:%M:%S'), coverage = True, table=table, output=output)
+                results.append(r)
             op.complete()
         return pd.concat(results)
     
