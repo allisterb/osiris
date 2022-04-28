@@ -7,3 +7,4 @@ pyTigerGraph
 google-cloud-bigquery[bqstorage,pandas]
 tqdm
 requests-toolbelt
+folium
