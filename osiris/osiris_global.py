@@ -17,7 +17,7 @@ DAEMON = False
 
 SCRIPT = False
 
-def set_runtime_env(debug, interactive_nb):
+def set_runtime_env(interactive_nb, debug=False):
         global DEBUG, INTERACTIVE_CLI, INTERACTIVE_NOTEBOOK, DAEMON, SCRIPT
         import logging
         logging.root.handlers.clear()
