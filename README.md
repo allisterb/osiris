@@ -5,7 +5,7 @@
 
 [![img](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/allisterb/osiris/blob/master/notebooks/Overview.ipynb)
 
-osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based queries and  methods and models and visualization powered by scalable graph databases. To get started see the [notebooks](https://github.com/allisterb/osiris/notebooks), and also the [wiki](https://github.com/allisterb/osiris/wiki) for more in-depth technical info.
+osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based methods and models and visualization, powered by scalable graph databases. To get started see the [notebooks](https://github.com/allisterb/osiris/notebooks), and also the [wiki](https://github.com/allisterb/osiris/wiki) for more in-depth technical info.
 
 
 Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
@@ -54,9 +54,10 @@ The larger vertices outlined in orange represent *events* while the smaller vert
 Directed edges connect actors with events with each event being connected to a dyad or pair of actors where one actor is the *source* of the event action and the other the *target*. 
 
 Using this model we can observe the following:
-* Disparate events and actors may be coded using standard codes allowing consistent connections between them 
+* Disparate events and actors may be coded using standard codes allowing consistent connections between these vertex types.
+* Events have temporal properties but actors do not. 
 * Actors initiate and receive event actions and events connect to other events only through actor vertices.
-* If an event A is possible cause of B then A must happen before B and a path must exist from B to A passing only through event vertices that also precede B.
+* If an event A is possible cause of B then A must happen before B and a directional path must exist from B to A passing only through event vertices that also precede B.
 * A sequence or chain of events leading to a violent event may show increasing levels of intensity e.g `1453 ENGAGE IN VIOLENT PROTESTS TO DEMAND RIGHTS` -> `153 MOBILIZE OR INCREASE POLICE POWER` -> `1823 KILL BY PHYSICAL ASSAULT`. The event coding can reflect this increase numerically with codes with a higher starting triple representing escalation.
 
  To effectively model and predict conflict we need to use new methods, of collecting observations of political *events* at a large-scale *population level*, of modelling those events in an appropriate way, and of using heuristics and *algorithms* to continuously make granular predictions about events and incorporate feedback about the quality of these predictions that can allow these algorithms to *iteratively* learn the hidden parameters in raw event data, that can create effective prediction models.   
