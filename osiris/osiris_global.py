@@ -19,6 +19,9 @@ SCRIPT = False
 
 def set_runtime_env(interactive_nb, debug=False):
         global DEBUG, INTERACTIVE_CLI, INTERACTIVE_NOTEBOOK, DAEMON, SCRIPT
+        import warnings
+        warnings.filterwarnings("ignore", category=FutureWarning)
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
         import logging
         logging.root.handlers.clear()
         if debug:
