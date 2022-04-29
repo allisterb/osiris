@@ -10,7 +10,6 @@ sys.path.append(os.path.join(osiris_global.OSIRIS_DIR, 'ext'))
 # Disable common warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-warnings.filterwarnings("ignore",'.*The warn_bad_lines argument has been.*')
 
 if __name__ == '__main__': 
     # Entry-point for CLI
