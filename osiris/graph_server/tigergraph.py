@@ -2,10 +2,10 @@ from distutils.log import error
 from logging import info
 
 import pyTigerGraph as tg
-from tqdm.auto import tqdm, trange
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
 import osiris_global
+from osiris_global import tqdm_debug, tqdm_auto
 from base.timer import begin
 from core.graph_server import GraphServer
 
@@ -58,9 +58,10 @@ class GraphServer(GraphServer):
         }
         fields = dict()
         fields["file"] = ("filename", data)
+        headers={"RESPONSE-LIMIT": str(524288000)}
         e = MultipartEncoder(fields=fields)
         if use_bar:
-            bar = tqdm(
+            bar = tqdm_auto(
                 desc=f"Executing loading job {job_name}",
                 total=len(data),
                 unit="B",
@@ -73,7 +74,7 @@ class GraphServer(GraphServer):
             )
         else:
             m = e       
-        r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, data=m)
+        r = self.conn._req("POST", self.conn.restppUrl + "/ddl/" + self.conn.graphname, params=params, headers=headers, data=m)
         bar.close()
         return r
 
@@ -104,7 +105,7 @@ class GraphServer(GraphServer):
                         data = df.to_csv(index=False, sep=',', header=True, quoting=csv.QUOTE_MINIMAL).encode('utf-8')
                         op.complete()
                     with begin(f"Uploading batch {i + 1} of {int(maxrows / bs)}") as op:
-                        upload_data_bar = tqdm(
+                        upload_data_bar = tqdm_auto(
                             desc=f"Uploading batch {i + 1} to TigerGraph server",
                             unit="B",
                             unit_scale=True,

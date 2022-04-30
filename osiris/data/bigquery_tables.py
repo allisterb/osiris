@@ -43,7 +43,3 @@ def mentions(start_date:datetime, bs=10000, maxrows=None):
     
     data = bigquery.import_data("table", table, bs, maxrows)
     return pd.concat(tqdm_iter(data, desc=f'Fetch event mentions table data', total = (int (maxrows / bs) if maxrows is not None else None), unit="batch"))
-
-def query(query_text, bs=10000, maxrows=None):
-    data = bigquery.import_data("query", query_text, bs, maxrows)
-    return pd.concat(tqdm_iter(data, desc=f'Fetch query data', total = (int (maxrows / bs) if maxrows is not None else None), unit="batch"))

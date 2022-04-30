@@ -70,3 +70,13 @@ def tqdm_debug(t, x):
             t.write(x)
         else:
             debug(x)
+
+def tqdm_auto(**kwargs):
+    if INTERACTIVE_CLI:
+        from tqdm import tqdm
+        return(tqdm(**kwargs))
+    elif INTERACTIVE_NOTEBOOK:
+        from  tqdm.notebook import tqdm_notebook
+        return tqdm_notebook(**kwargs)
+    else:
+        raise "Not in interactive mode."
