@@ -108,13 +108,13 @@ osiris is designed to allow researchers and workers in technical conflict foreca
 
 ## Dependencies
 
-* Python 3.8+
+* Python 3.7+
 
 ## Installation
 ### Hardware requirements
 osiris requires a TigerGraph instance with at least 32GB of RAM. Data loading into TigerGraph can take a lot of disk space so it's recommended you have at least 100GB available. On a 8vCPU x 32 GB RAM TigerGraph cloud instance with 100G disk storage, about 34M event vertices and 68M edges shaped from the [GDELT Events dataset](https://blog.gdeltproject.org/gdelt-2-0-our-global-world-in-realtime/) take about 20GB RAM abnd about 40GB disk space. This represents about a quarter of the 134M event vertices in the `osiris-347701.gdelt_snapshots.events_actors_20200400_` table on Google BigQuery which contains all GDELT events extracted and shaped from 2020-04-20 to 20220-04-20.
 
-### CLI and Jupyter
+### CLI
 1. Create a Python venv e.g `python -m venv osiris` and activate it.
 2. Clone the repo and its submodules: `git clone https://github.com/allisterb/osiris --recurse-submodules`.
 3. Run the install scripts: `install` on Windows or `./install` on Linux/macOS. This will install all the Python dependencies.
