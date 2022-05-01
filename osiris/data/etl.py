@@ -1,4 +1,5 @@
 from hashlib import sha1
+from datetime import datetime
 import binascii
 
 import pandas as pd
@@ -47,10 +48,37 @@ def calc_actor2_id(r:pd.DataFrame):
             str(r.Actor2Geo_FeatureID) if not pd.isnull(r.Actor2Geo_FeatureID) else '',     
         ]).encode('utf-8')).digest()).strip().decode('utf-8')
 
+def calc_action_adm_code(r:pd.DataFrame):
+    return ' '.join([
+        r.ActionGeo_ADM1Code if not pd.isnull(r.ActionGeo_ADM1Code) else '',
+        r.ActionGeo_ADM2Code if not pd.isnull(r.ActionGeo_ADM2Code) else ''
+    ]).strip()
+
 def shape_events_vertices(events:pd.DataFrame):
     from tqdm.auto import tqdm
     tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor1 ID')
-    events.insert(1, 'Actor1ID', events.progress_apply(calc_actor1_id, axis=1))
+    actor1_id = events.progress_apply(calc_actor1_id, axis=1)
+    actor1 = events.filter(regex='Actor1')
+    events = events[events.columns.drop(list(actor1))]
     tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor2 ID')
-    events.insert(2, 'Actor2ID', events.progress_apply(calc_actor2_id, axis=1))
-    return events
+    actor2_id = events.progress_apply(calc_actor2_id, axis=1)
+    actor2 = events.filter(regex='Actor2')
+    events = events[events.columns.drop(list(actor2))]
+    tqdm.pandas(total=len(events), unit='row', desc='Creating Action ADM Code')
+    events_action_geo_adm_code = events.progress_apply(calc_action_adm_code, axis=1)
+    events = events[events.columns.drop(['ActionGeo_ADM1Code', 'ActionGeo_ADM2Code'])]
+    event_date = events['SQLDATE'].map(lambda x: datetime.strptime(str(x), '%Y%m%d'), na_action='ignore')
+    events = events[events.columns.drop('SQLDATE')]
+    is_root = events['IsRootEvent'].astype(bool)
+    events['ActionGeo_FullName'] = events['ActionGeo_FullName'].str.replace(',', ';')
+    events = events[events.columns.drop('IsRootEvent')]
+    actor1.insert(0, 'ActorID', actor1_id)
+    actor2.insert(0, 'ActorID', actor2_id)
+    events.insert(1, 'Actor1ID', actor1_id)
+    events.insert(2, 'Actor2ID', actor2_id)
+    events.insert(3, 'Date', event_date)
+    events.insert(4, 'IsRoot', is_root)
+    events.insert(17, 'Geo_ADMCode', events_action_geo_adm_code)
+    events  = events.rename({'GLOBALEVENTID': 'ID',}, axis=1)
+    
+    return events, (actor1 + actor2)
