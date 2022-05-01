@@ -1,4 +1,4 @@
-CREATE QUERY actor_acted() FOR GRAPH GDELT_Events SYNTAX V2 API("v2"){ 
+CREATE QUERY actor_acted() FOR GRAPH GDELT_Events SYNTAX V2 API V2 { 
   ListAccum<EDGE> @edgeList;
   actors = 
     select s from Actor:s-(Acted>:a)-Event:e

@@ -54,7 +54,7 @@ def calc_action_adm_code(r:pd.DataFrame):
         r.ActionGeo_ADM2Code if not pd.isnull(r.ActionGeo_ADM2Code) else ''
     ]).strip()
 
-def shape_events_vertices(events:pd.DataFrame):
+def shape_events_actors_vertices(events:pd.DataFrame):
     from tqdm.auto import tqdm
     tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor1 ID')
     actor1_id = events.progress_apply(calc_actor1_id, axis=1)
@@ -81,4 +81,4 @@ def shape_events_vertices(events:pd.DataFrame):
     events.insert(17, 'Geo_ADMCode', events_action_geo_adm_code)
     events  = events.rename({'GLOBALEVENTID': 'ID',}, axis=1)
     
-    return events, (actor1 + actor2)
+    return events, actor1, actor2
