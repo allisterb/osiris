@@ -2,10 +2,8 @@ from hashlib import sha1
 import binascii
 
 import pandas as pd
-from tqdm.auto import tqdm
 
 def calc_actor1_id(r:pd.DataFrame):
-        tqdm.pandas(total=len(r), unit='row', desc='Hashing Actor1 ID')
         return binascii.b2a_base64(sha1(''.join([
             r.Actor1Code if not pd.isnull(r.Actor1Code) else '', 
             r.Actor1Name if not pd.isnull(r.Actor1Name) else '',
@@ -28,7 +26,6 @@ def calc_actor1_id(r:pd.DataFrame):
         ]).encode('utf-8')).digest()).strip().decode('utf-8')
 
 def calc_actor2_id(r:pd.DataFrame):
-        tqdm.pandas(total=len(r), unit='row', desc='Hashing Actor2 ID')
         return binascii.b2a_base64(sha1(''.join([
             r.Actor2Code if not pd.isnull(r.Actor2Code) else '', 
             r.Actor2Name if not pd.isnull(r.Actor2Name) else '',
@@ -51,6 +48,9 @@ def calc_actor2_id(r:pd.DataFrame):
         ]).encode('utf-8')).digest()).strip().decode('utf-8')
 
 def shape_events_vertices(events:pd.DataFrame):
+    from tqdm.auto import tqdm
+    tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor1 ID')
     events.insert(1, 'Actor1ID', events.progress_apply(calc_actor1_id, axis=1))
+    tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor2 ID')
     events.insert(2, 'Actor2ID', events.progress_apply(calc_actor2_id, axis=1))
     return events
