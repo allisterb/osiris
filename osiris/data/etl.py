@@ -48,30 +48,34 @@ def calc_actor2_id(r:pd.DataFrame):
             str(r.Actor2Geo_FeatureID) if not pd.isnull(r.Actor2Geo_FeatureID) else '',     
         ]).encode('utf-8')).digest()).strip().decode('utf-8')
 
-def calc_action_adm_code(r:pd.DataFrame):
-    return ' '.join([
-        r.ActionGeo_ADM1Code if not pd.isnull(r.ActionGeo_ADM1Code) else '',
-        r.ActionGeo_ADM2Code if not pd.isnull(r.ActionGeo_ADM2Code) else ''
-    ]).strip()
-
-def shape_events_actors_vertices(events:pd.DataFrame):
+def shape_event_actor_vertices(events:pd.DataFrame):
     from tqdm.auto import tqdm
     tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor1 ID')
     actor1_id = events.progress_apply(calc_actor1_id, axis=1)
     actor1 = events.filter(regex='Actor1')
+    actor1_geo_adm_code = actor1['Actor1Geo_ADM1Code'].str.cat(actor1['Actor1Geo_ADM2Code'])
+    actor1_religion = actor1['Actor1Religion1Code'].str.cat(actor1['Actor1Religion2Code'])
+    actor1_type = actor1['Actor1Type1Code'].str.cat(actor1['Actor1Type2Code']).str.cat(actor1['Actor1Type3Code'])
+    actor1 = actor1[actor1.columns.drop(list(['Actor1Geo_ADM1Code', 'Actor1Geo_ADM2Code', 'Actor1Religion1Code', 'Actor1Religion2Code', 'Actor1Type1Code', 'Actor1Type2Code', 'Actor1Type3Code']))]
     events = events[events.columns.drop(list(actor1))]
+    
     tqdm.pandas(total=len(events), unit='row', desc='Hashing Actor2 ID')
     actor2_id = events.progress_apply(calc_actor2_id, axis=1)
     actor2 = events.filter(regex='Actor2')
+    actor2_geo_adm_code = actor2['Actor2Geo_ADM1Code'].str.cat(actor2['Actor2Geo_ADM2Code'])
+    actor2_religion = actor2['Actor2Religion1Code'].str.cat(actor2['Actor2Religion2Code'])
+    actor2_type = actor2['Actor2Type1Code'].str.cat(actor2['Actor2Type2Code']).str.cat(actor2['Actor2Type3Code'])
+    actor2 = actor2[actor2.columns.drop(list(['Actor2Geo_ADM1Code', 'Actor2Geo_ADM2Code']))]
     events = events[events.columns.drop(list(actor2))]
-    tqdm.pandas(total=len(events), unit='row', desc='Creating Action ADM Code')
-    events_action_geo_adm_code = events.progress_apply(calc_action_adm_code, axis=1)
+    
+    events_action_geo_adm_code = events['ActionGeo_ADM1Code'].str.cat(events['ActionGeo_ADM2Code'])
     events = events[events.columns.drop(['ActionGeo_ADM1Code', 'ActionGeo_ADM2Code'])]
     event_date = events['SQLDATE'].map(lambda x: datetime.strptime(str(x), '%Y%m%d'), na_action='ignore')
     events = events[events.columns.drop('SQLDATE')]
     is_root = events['IsRootEvent'].astype(bool)
-    events['ActionGeo_FullName'] = events['ActionGeo_FullName'].str.replace(',', ';')
     events = events[events.columns.drop('IsRootEvent')]
+    events['ActionGeo_FullName'] = events['ActionGeo_FullName'].str.replace(',', ';')
+    
     actor1.insert(0, 'ActorID', actor1_id)
     actor2.insert(0, 'ActorID', actor2_id)
     events.insert(1, 'Actor1ID', actor1_id)
@@ -79,6 +83,9 @@ def shape_events_actors_vertices(events:pd.DataFrame):
     events.insert(3, 'Date', event_date)
     events.insert(4, 'IsRoot', is_root)
     events.insert(17, 'Geo_ADMCode', events_action_geo_adm_code)
-    events  = events.rename({'GLOBALEVENTID': 'ID',}, axis=1)
-    
+    events = events.rename({'GLOBALEVENTID': 'ID',}, axis=1)
+    actor1.columns = actor1.columns.str.replace('Actor1', 'Actor')
+    actor2.columns = actor2.columns.str.replace('Actor2', 'Actor')
+    actor1.insert(11, 'ActorGeo_ADMCode', actor1_geo_adm_code)
+    actor2.insert(11, 'ActorGeo_ADMCode', actor2_geo_adm_code)
     return events, actor1, actor2
