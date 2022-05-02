@@ -89,3 +89,20 @@ def shape_event_actor_vertices(events:pd.DataFrame):
     actor1.insert(11, 'ActorGeo_ADMCode', actor1_geo_adm_code)
     actor2.insert(11, 'ActorGeo_ADMCode', actor2_geo_adm_code)
     return events, actor1, actor2
+
+def shape_event_actor_vertices_flat(event_vertices:pd.DataFrame, actor1_vertices:pd.DataFrame, actor2_vertices:pd.DataFrame):
+    edges = pd.concat([
+        event_vertices[['Actor1ID', 'ID', 'Date']].rename({'Actor1ID':'src', 'ID':'dest', 'Date':'date'}, axis=1),
+        event_vertices[['ID', 'Actor2ID', 'Date']].rename({'ID':'src', 'Actor2ID':'dest', 'Date':'date'}, axis=1)
+    ])
+    edges['src'] = edges['src'].astype(str)
+    edges['dest'] = edges['dest'].astype(str)
+
+    nodes = pd.concat([
+        event_vertices[['ID', 'CAMEOCodeDescription']].rename({'ID':'node_id', 'CAMEOCodeDescription':'node_title'}, axis=1),
+        actor1_vertices[['ActorID', 'ActorName']].rename({'ActorID':'node_id', 'ActorName':'node_title'}, axis=1),
+        actor2_vertices[['ActorID', 'ActorName']].rename({'ActorID':'node_id', 'ActorName':'node_title'}, axis=1)
+    ])
+    nodes['node_id'] = nodes['node_id'].astype(str) 
+    return nodes, edges
+
