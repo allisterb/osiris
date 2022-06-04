@@ -5,14 +5,9 @@
 
 [![img](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/allisterb/osiris/blob/master/notebooks/Overview.ipynb)
 
-osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based methods and models and visualization, powered by scalable graph databases. To get started see the [notebooks](https://github.com/allisterb/osiris/notebooks), and also the [wiki](https://github.com/allisterb/osiris/wiki) for more in-depth technical info.
+osiris is a Python data processing and analysis environment for data-based computational conflict forecasting using very large datasets and graph-based methods and models and visualization, powered by scalable graph databases. To get started see the [notebooks](https://github.com/allisterb/osiris/tree/master/notebooks), and also the [wiki](https://github.com/allisterb/osiris/wiki) for more in-depth technical info.
 
-
-Information below is for my entry into the [TigerGraph Graph for All hackathon](https://graphforall.devpost.com/).
-
-
-## Problem Statement: Predict Global Crises
-
+## About
 Forecasting global crises in general and conflict and violence in particular is essential for economic policy-making and public- and private-sector disaster response and civil and police and military resource allocation. Very few phenomena have the impact on the economic stability and fortunes of countries like invasions, civil wars, insurgencies, global and domestic terrorism, civil unrest, strikes and blockades and other disruptive actions by essential workers, and so on. These crises often result in a complex set of further economic damage due to things like international sanctions, and knock-on crises in other countries like supply-chain shortages. But current qualitative and quantitative methods for analyzing and predicting human-initiated conflict and crises are not adequate e.g. [Philip Tetlock](https://www.stat.berkeley.edu/~aldous/Blog/tetlock2020.pdf):
 >International politics poses a challenge for these methods because the laws governing the system are elusive or highly
 debatable, relevant data points are often unavailable or unprecedented, and thousands of variables interact in countless ways.
